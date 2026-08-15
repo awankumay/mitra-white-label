@@ -6,9 +6,7 @@ use Core\CoreServiceProvider;
 use Illuminate\Support\ServiceProvider;
 use Tests\TestCase;
 
-class StubSubProvider extends ServiceProvider
-{
-}
+class StubSubProvider extends ServiceProvider {}
 
 class CoreServiceProviderTest extends TestCase
 {

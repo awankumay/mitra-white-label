@@ -98,7 +98,7 @@ class AdminPanelProvider extends PanelProvider
                 FilamentDeveloperLoginsPlugin::make()
                     ->enabled(app()->environment('local'))
                     ->switchable(true)
-                    ->users(fn() => User::pluck('email', 'name')->toArray()),
+                    ->users(fn () => User::pluck('email', 'name')->toArray()),
                 FilamentLanguageSwitcherPlugin::make()
                     ->showOnAuthPages()
                     ->locales(['en', 'id'])
