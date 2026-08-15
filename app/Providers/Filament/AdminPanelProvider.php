@@ -6,6 +6,7 @@ use App\Filament\Resources\Users\UserResource;
 use App\Models\User;
 use Awcodes\QuickCreate\QuickCreatePlugin;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
+use CraftForge\FilamentLanguageSwitcher\FilamentLanguageSwitcherPlugin;
 use DutchCodingCompany\FilamentDeveloperLogins\FilamentDeveloperLoginsPlugin;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -16,6 +17,7 @@ use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
 use Filament\Support\Enums\Width;
+use Filament\View\PanelsRenderHook;
 use Filament\Widgets\AccountWidget;
 use Filament\Widgets\FilamentInfoWidget;
 use FilamentWhiteLabel\Resources\WhiteLabelSettingsResource;
@@ -96,7 +98,12 @@ class AdminPanelProvider extends PanelProvider
                 FilamentDeveloperLoginsPlugin::make()
                     ->enabled(app()->environment('local'))
                     ->switchable(true)
-                    ->users(fn () => User::pluck('email', 'name')->toArray()),
+                    ->users(fn() => User::pluck('email', 'name')->toArray()),
+                FilamentLanguageSwitcherPlugin::make()
+                    ->showOnAuthPages()
+                    ->locales(['en', 'id'])
+                    ->rememberLocale()
+                    ->renderHook(PanelsRenderHook::USER_MENU_BEFORE),
             ])
             ->sidebarWidth('14rem')
             ->authMiddleware([
