@@ -45,6 +45,15 @@ modules/                  # Business modules — namespace Modules\<Name>\
     └── Policies/
 ```
 
+## Konfigurasi Core
+
+- Sumber: `core/Config/core.php` (di-commit in-repo).
+- Bootstrap: `Core\CoreServiceProvider` di `bootstrap/providers.php`.
+- Sub-provider domain: daftar di `config('core.providers')`.
+- Publishable: `php artisan vendor:publish --tag=core-config` → menyalin
+  ke `config/core.php` untuk override aplikasi.
+- Pola kunci: `core.{domain}.{key}`.
+
 ## Aturan
 
 - `core/` tidak pernah mengimpor `app/` atau `modules/` (ADR-005).
@@ -52,7 +61,7 @@ modules/                  # Business modules — namespace Modules\<Name>\
   Domain/Actions/Services.
 - `modules/` opsional; struktur module mengikuti ADR-006.
 - Folder fisik dibuat sesuai kebutuhan milestone — peta ini adalah
-  target akhir, bukan kewajiban membuat folder kosong di M0.
+  target akhir; `core/` sudah aktif sejak M1.
 
 ## Nama Folder
 

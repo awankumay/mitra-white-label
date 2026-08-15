@@ -29,18 +29,18 @@
 
 ## 1.1 Application Foundation
 
-- [ ] Define Core application architecture
-- [ ] Define Core namespaces
-- [ ] Define application layer boundaries
-- [ ] Define extension points
-- [ ] Define service provider strategy
-- [ ] Define configuration strategy
-- [ ] Define bootstrap strategy
-- [ ] Define Core contracts
-- [ ] Define Core interfaces
-- [ ] Define Core events
-- [ ] Define Core actions
-- [ ] Define Core exceptions
+- [x] Define Core application architecture — ADR-001, ADR-002, ADR-005
+- [x] Define Core namespaces — ADR-001
+- [x] Define application layer boundaries — ADR-005
+- [x] Define extension points — ADR-008 (mekanisme; kontrak nyata per-kebutuhan)
+- [x] Define service provider strategy — ADR-009
+- [x] Define configuration strategy — ADR-010
+- [x] Define bootstrap strategy — ADR-010
+- [ ] Define Core contracts — per-kebutuhan (M4: context, M5: auth, dst.)
+- [ ] Define Core interfaces — per-kebutuhan
+- [ ] Define Core events — per-kebutuhan (M8: audit, notification)
+- [ ] Define Core actions — per-kebutuhan (M3: CreateOrganization, dst.)
+- [x] Define Core exceptions — `CoreException` dibuat; sisanya per-kebutuhan
 
 ## 1.2 Directory Structure
 
