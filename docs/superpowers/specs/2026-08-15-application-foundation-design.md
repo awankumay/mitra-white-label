@@ -139,9 +139,9 @@ Pest arch test di `tests/Arch/CoreArchTest.php` memverifikasi ADR-005:
 2. `Core\` non-UI tidak mengimpor Filament (pengecualian: komponen UI Core
    yang memang memakai Filament, bila ada di masa depan).
 
-Pest arch testing membutuhkan plugin `pestphp/pest-plugin-arch` — tambahkan
-ke `require-dev` di `composer.json` (belum terpasang; baseline audit hanya
-mencatat `pestphp/pest` dan `pestphp/pest-plugin-laravel`).
+Pest arch testing sudah **built-in** di Pest v4 (terpasang: `pestphp/pest` v4.7.8,
+memiliki `ArchPresets/` di paket inti) — plugin terpisah `pest-plugin-arch`
+tidak diperlukan.
 
 Quality gate: `composer check` (Pint → Pest → PHPStan).
 
