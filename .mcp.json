@@ -6,6 +6,11 @@
                 "artisan",
                 "boost:mcp"
             ]
+        },
+        "laraplugins-package-search": {
+            "type": "streamable-http",
+            "url": "https://laraplugins.io/mcp/plugins",
+            "note": "LaraPlugins.io MCP Plugin Server (Streamable HTTP). Add this URL in your MCP client to enable search and plugin details."
         }
     }
 }
