@@ -1,0 +1,10 @@
+{
+    "disabledMcpjsonServers": [
+        "laraplugins-package-search"
+    ],
+    "enabledPlugins": {
+        "playwright@claude-plugins-official": true,
+        "laravel-boost@claude-plugins-official": true,
+        "superpowers@claude-plugins-official": true
+    }
+}

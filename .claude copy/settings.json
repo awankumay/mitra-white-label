@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "defaultMode": "auto"
+  },
+  "enabledMcpjsonServers": [
+    "laravel-boost"
+  ],
+  "language": "Indonesian",
+  "worktree": {
+    "baseRef": "head"
+  },
+  "gitConstraints": {
+    "blockPullRequestsToMain": true,
+    "allowedPRBaseBranches": [
+      "feat/mvp-erp",
+      "develop"
+    ],
+    "prDefaultBaseBranch": "feat/mvp-erp"
+  }
+}
