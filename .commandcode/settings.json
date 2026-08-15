@@ -42,85 +42,42 @@
   "hooks": {
     "PreToolUse": [
       {
-        "matcher": "Read|Write|Edit|Bash|Grep|Glob|WebFetch|WebSearch|NotebookEdit|EnterWorktree|ExitWorktree",
+        "matcher": "shell|read|write|edit",
         "hooks": [
           {
             "type": "command",
-            "command": "python3 $HOME/.claude/scripts/global-guard.py",
+            "command": "python \".commandcode/hooks/global-guard.py\"",
             "timeout": 5
           }
         ]
       },
       {
-        "matcher": "Bash",
+        "matcher": "shell",
         "hooks": [
           {
             "type": "command",
-            "command": "CMD=$(jq -r '.tool_input.command'); if echo \"$CMD\" | grep -qiE '(^|;[[:space:]]*|&&[[:space:]]*|[|][|][[:space:]]*|[|][[:space:]]*)rm[[:space:]]' && echo \"$CMD\" | grep -qiE '(^|[[:space:]])-[a-zA-Z]*[rR]|--recursive' && echo \"$CMD\" | grep -qiE '(^|[[:space:]])-[a-zA-Z]*[fF]|--force'; then echo 'BLOCKED: Use trash instead of rm -rf' >&2; exit 2; fi"
-          },
-          {
-            "type": "command",
-            "command": "CMD=$(jq -r '.tool_input.command'); if echo \"$CMD\" | grep -qE 'git[[:space:]]+push.*(main|master)'; then echo 'BLOCKED: Use feature branches, not direct push to main' >&2; exit 2; fi"
-          }
-        ]
-      },
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "rtk hook claude"
-          }
-        ]
-      }
-    ],
-    "Notification": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "osascript -e 'display notification \"Claude Code needs your attention\" with title \"Claude Code\"'",
+            "command": "bash \".commandcode/hooks/deny-dangerous.sh\"",
             "timeout": 5
           }
         ]
       }
-    ],
-    "Stop": [
+    ],    "Stop": [
       {
-        "matcher": "",
         "hooks": [
           {
             "type": "command",
-            "command": "$HOME/.claude/scripts/session-save-reminder.sh",
+            "command": "bash \"C:/Users/LENOVO/.claude/scripts/session-save-reminder.sh\"",
             "timeout": 5
-          }
-        ]
-      }
-    ],
-    "PreCompact": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "$HOME/.claude/scripts/pre-compact.sh",
-            "timeout": 10
-          },
-          {
-            "type": "prompt",
-            "prompt": "Context is about to be compressed. Before compaction, preserve: 1) Current task status and progress, 2) Key decisions made this session, 3) Files created or modified (with paths), 4) Remaining work items, 5) Any user preferences or corrections discovered. Discard: verbose tool outputs, intermediate search results, redundant file listings, exploratory dead ends."
           }
         ]
       }
     ],
     "SessionStart": [
       {
-        "matcher": "startup|resume|clear",
         "hooks": [
           {
             "type": "command",
-            "command": "rm -f $HOME/.claude/state/.session-start $HOME/.claude/state/.session-reminded 2>/dev/null; exit 0",
+            "command": "bash -c \"rm -f C:/Users/LENOVO/.claude/state/.session-start C:/Users/LENOVO/.claude/state/.session-reminded 2>/dev/null\"",
             "timeout": 5
           }
         ]

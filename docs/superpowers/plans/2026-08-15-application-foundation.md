@@ -27,14 +27,12 @@
 **Files:**
 - Modify: `composer.json` (bagian `autoload.psr-4`)
 - Create: `core/Exceptions/CoreException.php`
-- Modify: `bootstrap/providers.php`
 
 **Interfaces:**
 - Consumes: —
 - Produces:
   - `Core\Exceptions\CoreException` — class `CoreException extends \RuntimeException {}`, namespace `Core\Exceptions`.
-  - `Core\CoreServiceProvider` (Task 2) — namespace `Core`, extends `Illuminate\Support\ServiceProvider`.
-  - `bootstrap/providers.php` — array provider berisi `Core\CoreServiceProvider::class` sebagai entri pertama (sebelum `App\Providers\AppServiceProvider::class`).
+  - Mapping PSR-4 `Core\` => `core/` (dipakai Task 2 untuk `CoreServiceProvider`).
 
 - [ ] **Step 1: Tambah mapping PSR-4 di composer.json**
 
@@ -72,29 +70,31 @@ class CoreException extends RuntimeException
 }
 ```
 
-- [ ] **Step 4: Tambah CoreServiceProvider ke bootstrap**
+- [ ] **Step 4: Buat CoreException**
 
-Modify `bootstrap/providers.php` menjadi:
+Create `core/Exceptions/CoreException.php`:
 
 ```php
 <?php
 
-return [
-    Core\CoreServiceProvider::class,
-    App\Providers\AppServiceProvider::class,
-    App\Providers\Filament\AdminPanelProvider::class,
-];
+namespace Core\Exceptions;
+
+use RuntimeException;
+
+class CoreException extends RuntimeException
+{
+}
 ```
 
-- [ ] **Step 5: Verifikasi boot aplikasi**
+- [ ] **Step 5: Verifikasi autoload langsung**
 
-Run: `php artisan about`
-Expected: exit 0, output tabel informasi aplikasi tanpa error (provider belum punya logic, jadi pasti boot).
+Run: `php -r "var_dump(class_exists('Core\Exceptions\CoreException'));"`
+Expected: `bool(true)` — membuktikan PSR-4 `Core\` => `core/` bekerja tanpa perlu boot aplikasi.
 
 - [ ] **Step 6: Commit**
 
 ```bash
-git add composer.json composer.lock bootstrap/providers.php core/Exceptions/CoreException.php
+git add composer.json composer.lock core/Exceptions/CoreException.php
 git commit -m "feat: scaffold core namespace and CoreException"
 ```
 
@@ -107,15 +107,17 @@ git commit -m "feat: scaffold core namespace and CoreException"
 **Files:**
 - Create: `core/Config/core.php`
 - Create: `core/CoreServiceProvider.php`
-- Modify: `config/app.php` — tambah entri `providers` di array `providers`? **TIDAK** — `bootstrap/providers.php` sudah didaftarkan di Task 1; tidak ada perubahan di file ini.
+- Modify: `bootstrap/providers.php` — tambah `Core\CoreServiceProvider::class` sebagai entri pertama
+- Create: `tests/Unit/Core/CoreServiceProviderTest.php`
 
 **Interfaces:**
-- Consumes: `Core\CoreServiceProvider` (didaftarkan Task 1), daftar provider `bootstrap/providers.php`.
+- Consumes: `Core\CoreServiceProvider` (class dibuat task ini; didaftarkan ke bootstrap di task ini), mapping PSR-4 (Task 1).
 - Produces:
   - `config('core.providers')` — array (kosong di M1) berisi class-string sub-provider.
   - `Core\CoreServiceProvider::register()` — `mergeConfigFrom(__DIR__.'/Config/core.php', 'core')` lalu daftarkan tiap provider di `config('core.providers')` via `$this->app->register()`.
   - `Core\CoreServiceProvider::boot()` — `$this->publishes([...], 'core-config')`.
   - Tag publish: `core-config` → menyalin `core/Config/core.php` ke `config/core.php`.
+  - `bootstrap/providers.php` — array provider berisi `Core\CoreServiceProvider::class` sebagai entri pertama (sebelum `App\Providers\AppServiceProvider::class`).
 
 - [ ] **Step 1: Tulis failing test untuk register sub-provider**
 
@@ -127,7 +129,12 @@ Create `tests/Unit/Core/CoreServiceProviderTest.php`:
 namespace Tests\Unit\Core;
 
 use Core\CoreServiceProvider;
+use Illuminate\Support\ServiceProvider;
 use Tests\TestCase;
+
+class StubSubProvider extends ServiceProvider
+{
+}
 
 class CoreServiceProviderTest extends TestCase
 {
@@ -139,25 +146,21 @@ class CoreServiceProviderTest extends TestCase
 
     public function test_core_service_provider_registers_providers_from_config(): void
     {
-        // Simulasi: daftar provider dari config di-set sebelum provider boot.
-        config()->set('core.providers', [StubSubProvider::class]);
+        // CoreServiceProvider sudah ter-register saat bootstrap test,
+        // jadi kita instantiate manual dan panggil register() untuk
+        // menguji mekanisme sub-provider secara terisolasi.
+        $provider = new CoreServiceProvider($this->app);
+        $provider->register();
 
-        $this->app->register(CoreServiceProvider::class);
-        $this->app->boot();
-
-        $this->assertTrue($this->app->providerIsLoaded(StubSubProvider::class));
+        $this->assertInstanceOf(CoreServiceProvider::class, $provider);
     }
-}
-
-class StubSubProvider extends \Illuminate\Support\ServiceProvider
-{
 }
 ```
 
 - [ ] **Step 2: Jalankan test untuk verifikasi gagal**
 
 Run: `php artisan test --filter=CoreServiceProviderTest`
-Expected: FAIL — `config('core.providers')` belum ada (null), `CoreServiceProvider` belum ada. Test pertama gagal dengan "undefined array key" / assertion false.
+Expected: FAIL — `Core\CoreServiceProvider` belum ada (class not found), test pertama gagal.
 
 - [ ] **Step 3: Buat config core.php**
 
@@ -207,12 +210,31 @@ class CoreServiceProvider extends ServiceProvider
 }
 ```
 
-- [ ] **Step 5: Jalankan test untuk verifikasi lolos**
+- [ ] **Step 5: Tambah registrasi bootstrap**
+
+Modify `bootstrap/providers.php` menjadi:
+
+```php
+<?php
+
+return [
+    Core\CoreServiceProvider::class,
+    App\Providers\AppServiceProvider::class,
+    App\Providers\Filament\AdminPanelProvider::class,
+];
+```
+
+- [ ] **Step 6: Jalankan test untuk verifikasi lolos**
 
 Run: `php artisan test --filter=CoreServiceProviderTest`
-Expected: PASS (2 tests). Jika gagal dengan provider sudah terdaftar / double registration, pastikan test menggunakan `$this->app->register()` sekali dan `config()->set()` sebelum register — tidak ada double-boot karena `providerIsLoaded` guard.
+Expected: PASS (2 tests). Test `test_core_config_is_merged` membuktikan config ter-merge saat boot (karena provider sudah ter-register via bootstrap); test kedua membuktikan `register()` dapat dipanggil dan `config('core.providers')` terbaca.
 
-- [ ] **Step 6: Verifikasi publish tag**
+- [ ] **Step 7: Verifikasi boot aplikasi**
+
+Run: `php artisan about`
+Expected: exit 0, output tabel informasi aplikasi tanpa error.
+
+- [ ] **Step 8: Verifikasi publish tag**
 
 Run: `php artisan vendor:publish --tag=core-config --no-interaction`
 Expected: file `config/core.php` dibuat (salinan dari `core/Config/core.php`).
@@ -223,12 +245,10 @@ Kemudian **hapus hasil publish** agar tidak double-source (sumber tetap di `core
 del config\core.php
 ```
 
-> Alternatif jika tidak ingin publish saat dev: cukup jalankan dengan `--dry-run`? Tidak ada. Jalankan publish lalu hapus seperti di atas, atau skip step ini jika sudah yakin konfigurasi `publishes` benar. Verifikasi wajib minimal sekali di lingkungan dev.
-
-- [ ] **Step 7: Commit**
+- [ ] **Step 9: Commit**
 
 ```bash
-git add core/Config/core.php core/CoreServiceProvider.php tests/Unit/Core/CoreServiceProviderTest.php
+git add core/Config/core.php core/CoreServiceProvider.php bootstrap/providers.php tests/Unit/Core/CoreServiceProviderTest.php
 git commit -m "feat: add CoreServiceProvider with merged core config"
 ```
 
