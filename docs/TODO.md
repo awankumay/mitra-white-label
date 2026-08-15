@@ -10,18 +10,18 @@
 
 # 0. Project Baseline
 
-- [ ] Review current repository structure against `PRD.md`
-- [ ] Review installed Composer packages
-- [ ] Review installed NPM packages
-- [ ] Remove unused / redundant packages
-- [ ] Verify Laravel 13 compatibility
-- [ ] Verify Filament 5 compatibility
-- [ ] Verify PHP 8.3+ compatibility
-- [ ] Establish coding conventions
-- [ ] Establish naming conventions
-- [ ] Establish namespace conventions
-- [ ] Establish Core vs Application boundaries
-- [ ] Document architectural decisions
+- [x] Review current repository structure against `PRD.md` — `docs/architecture/baseline-audit.md`
+- [x] Review installed Composer packages — `docs/architecture/baseline-audit.md`
+- [x] Review installed NPM packages — `docs/architecture/baseline-audit.md`
+- [ ] Remove unused / redundant packages — **deferred ke M7 (Settings/Branding) & M8 (Audit)**, lihat `docs/architecture/adr-007-package-retention.md`
+- [x] Verify Laravel 13 compatibility — `docs/architecture/baseline-audit.md`
+- [x] Verify Filament 5 compatibility — `docs/architecture/baseline-audit.md`
+- [x] Verify PHP 8.3+ compatibility — `docs/architecture/baseline-audit.md`
+- [x] Establish coding conventions — `docs/conventions/coding.md`
+- [x] Establish naming conventions — `docs/conventions/naming.md`
+- [x] Establish namespace conventions — `docs/architecture/adr-001-namespace-core.md`, `docs/architecture/adr-002-struktur-app.md`
+- [x] Establish Core vs Application boundaries — `docs/architecture/adr-005-batas-core-application.md`
+- [x] Document architectural decisions — `docs/architecture/adr-001-namespace-core.md` s.d. `adr-007-package-retention.md`
 
 ---
 
