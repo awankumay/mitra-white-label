@@ -168,9 +168,16 @@ Berlaku konsisten di `core/`, `app/`, dan `modules/` (detail: spec
 
 ### Database
 
-- Artefak database milik Core di `core/Database/` (Migrations/, Factories/,
-  Seeders/), dimuat via `loadMigrationsFrom` di `CoreServiceProvider`.
+- Migration Core di `core/Database/Migrations/` (anonymous class, tanpa
+  namespace), dimuat via `loadMigrationsFrom` di `CoreServiceProvider::boot()`
+  (ADR-010: Core = package in-repo).
+- Factories Core di `core/Database/Factories/` (namespace
+  `Core\Database\Factories\` — tidak auto-discovered; model Core perlu
+  `newFactory()` atau registrasi eksplisit).
+- Seeders Core di `core/Database/Seeders/` (namespace
+  `Core\Database\Seeders\` — dipanggil eksplisit, tidak auto-discover).
 - Artefak database aplikasi tetap di `database/` root aplikasi (default Laravel).
+- Uniqueness nama file migration dijaga lintas kedua folder.
 
 ## Nama Folder
 

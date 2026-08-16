@@ -91,32 +91,32 @@
 
 ## 3.1 Database Conventions
 
-- [ ] Define primary key strategy
-- [ ] Define UUID/ULID strategy
-- [ ] Define timestamps convention
-- [ ] Define soft-delete convention
-- [ ] Define foreign key convention
-- [ ] Define indexing convention
-- [ ] Define naming convention
-- [ ] Define audit columns convention
+- [x] Define primary key strategy — `docs/conventions/database.md` (ADR-004)
+- [x] Define UUID/ULID strategy — `docs/conventions/database.md` (UUIDv7, ADR-011)
+- [x] Define timestamps convention — `docs/conventions/database.md`
+- [x] Define soft-delete convention — `docs/conventions/database.md`
+- [x] Define foreign key convention — `docs/conventions/database.md`
+- [x] Define indexing convention — `docs/conventions/database.md`
+- [x] Define naming convention — `docs/conventions/database.md`
+- [x] Define audit columns convention — `docs/conventions/database.md`
 
 ## 3.2 Core Tables
 
-- [ ] Design `organizations`
-- [ ] Design `organizational_units`
-- [ ] Design `organizational_unit_user`
-- [ ] Design `organization_user` if required by implementation
-- [ ] Design `settings`
-- [ ] Design `audit_logs`
-- [ ] Design `security_events`
+- [x] Design `organizations` — `core/Database/Migrations/2026_08_16_000001_create_organizations_table.php`
+- [x] Design `organizational_units` — `core/Database/Migrations/2026_08_16_000002_create_organizational_units_table.php`
+- [x] Design `organizational_unit_user` — `core/Database/Migrations/2026_08_16_000003_create_organizational_unit_user_table.php`
+- [x] Design `organization_user` if required by implementation — `core/Database/Migrations/2026_08_16_000004_create_organization_user_table.php`
+- [x] Design `settings` — `core/Database/Migrations/2026_08_16_000006_create_settings_table.php`
+- [x] Design `audit_logs` — `core/Database/Migrations/2026_08_16_000007_create_audit_logs_table.php`
+- [x] Design `security_events` — `core/Database/Migrations/2026_08_16_000008_create_security_events_table.php`
 
 ## 3.3 Database Constraints
 
-- [ ] Add foreign keys
-- [ ] Add indexes
-- [ ] Add unique constraints
-- [ ] Validate organizational hierarchy constraints
-- [ ] Validate user/unit assignment constraints
+- [x] Add foreign keys — `core/Database/Migrations/` (onDelete hybrid, ADR-011)
+- [x] Add indexes — `core/Database/Migrations/` (index di tiap tabel Core)
+- [x] Add unique constraints — `organizations.name`, `settings_scope_unique`, composite PK pivot
+- [ ] Validate organizational hierarchy constraints — validasi aplikasi (cycle, parent ≠ self, se-organization, depth) di M3 (`docs/conventions/database.md`)
+- [ ] Validate user/unit assignment constraints — validasi aplikasi (primary unit harus unit yang di-assign) di M3 (`docs/conventions/database.md`)
 
 ---
 
