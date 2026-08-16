@@ -157,49 +157,49 @@
 
 ## 5.1 Context Contracts
 
-- [ ] Define `OrganizationContext`
-- [ ] Define `OrganizationalUnitContext`
-- [ ] Define context contracts
-- [ ] Define context lifecycle
+- [x] Define `OrganizationContext` — `core/Contracts/OrganizationContext.php` (kontrak, spec §3.2)
+- [x] Define `OrganizationalUnitContext` — `core/Contracts/OrganizationalUnitContext.php` (kontrak, spec §3.2)
+- [x] Define context contracts — `core/Contracts/`, binding via `ContextServiceProvider` (spec §3.2, ADR-008)
+- [x] Define context lifecycle — session `unit_id` + resolve ulang per-request (spec §4.3)
 
 ## 5.2 Context Resolution
 
-- [ ] Resolve organization context
-- [ ] Resolve primary organizational unit
-- [ ] Resolve current organizational unit
-- [ ] Handle users with multiple units
-- [ ] Handle users without assigned units
-- [ ] Validate context authorization
+- [x] Resolve organization context — `core/Context/OrganizationContextManager.php` (derive dari current unit / pivot `organization_user`, spec §3.3)
+- [x] Resolve primary organizational unit — `ContextResolver` fallback primary unit (spec §4.1)
+- [x] Resolve current organizational unit — `core/Context/OrganizationalUnitContextManager.php` + `ContextResolver` (spec §4.2)
+- [x] Handle users with multiple units — fallback unit pertama jika tanpa primary (spec §4.1)
+- [x] Handle users without assigned units — org context via pivot `organization_user`, unit context kosong (spec §4.1)
+- [x] Validate context authorization — session basi → clear + fallback; switch tidak valid → `OrganizationException::invalidAssignment` (spec §4.2, §8)
 
 ## 5.3 Context Switching
 
-- [ ] Implement unit switcher
-- [ ] Implement current unit persistence
-- [ ] Prevent unauthorized switching
-- [ ] Add context switching tests
-- [ ] Integrate context with Filament
+- [x] Implement unit switcher — `PanelsRenderHook::USER_MENU_BEFORE` (spec §5.2)
+- [x] Implement current unit persistence — session `config('core.context.session_key', 'context.unit_id')` (spec §5.4)
+- [x] Prevent unauthorized switching — `SwitchUnitAction` validasi assignment (spec §5.1)
+- [x] Add context switching tests — `tests/Feature/Context/SwitchUnitTest.php`, `tests/Unit/Context/SwitchUnitActionTest.php`
+- [x] Integrate context with Filament — `tests/Feature/Context/ContextFilamentTest.php`
 
 ## 5.4 Non-Filament Usage
 
-- [ ] Make context available to Services
-- [ ] Make context available to Actions
-- [ ] Make context available to Policies
-- [ ] Make context available to Jobs
-- [ ] Make context available to Console Commands
+- [x] Make context available to Services — `app(OrganizationalUnitContext::class)->current()` (spec §6)
+- [x] Make context available to Actions — idem, `tests/Unit/Context/ContextNonFilamentTest.php`
+- [x] Make context available to Policies — cek `$context->has()` + `currentId()` (spec §6)
+- [x] Make context available to Jobs — set eksplisit di `handle()` / terima `unit_id` (spec §6)
+- [x] Make context available to Console Commands — opsi `--unit=` / `set()` manual (spec §6)
 
 ---
 
 # 6. Data Scope Architecture
 
-- [ ] Define Global scope convention
-- [ ] Define Organization scope convention
-- [ ] Define Organizational Unit scope convention
-- [ ] Define scoped model conventions
-- [ ] Define scope-aware query patterns
-- [ ] Define scope-aware policies
-- [ ] Define scope-aware resource patterns
-- [ ] Define scope bypass rules for administrators
-- [ ] Add scope tests
+- [x] Define Global scope convention — `docs/conventions/scope.md`, spec §2
+- [x] Define Organization scope convention — `docs/conventions/scope.md`, spec §2
+- [x] Define Organizational Unit scope convention — `docs/conventions/scope.md`, spec §2
+- [x] Define scoped model conventions — `Core\Contracts\ScopedModel`, `core/Enums/DataScope`, spec §4
+- [x] Define scope-aware query patterns — `Core\Support\Scope`, spec §4.3
+- [x] Define scope-aware policies — `app/Policies/ScopePolicy.php`, spec §5.1
+- [x] Define scope-aware resource patterns — `docs/conventions/scope.md`, spec §5.2
+- [x] Define scope bypass rules for administrators — role `super_admin`, spec §6
+- [x] Add scope tests — `tests/Unit/Scope/`, `tests/Feature/Scope/`
 
 ---
 
