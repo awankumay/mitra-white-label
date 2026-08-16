@@ -72,11 +72,14 @@ Kontrak di `core/Contracts/`; implementasi di `core/Context/`. Binding via `Cont
 
 ### 3.3 Alur Data
 
+- Session hanya menyimpan `unit_id` (current unit). `organization_id` **tidak** disimpan di session — selalu di-derive dari current unit (unit → organization) atau dari pivot `organization_user` jika user tidak punya unit.
+- `ContextResolver` adalah helper yang dipakai kedua manager untuk membaca session + fallback; manager menyimpan hasil resolusi sebagai state per-request.
+
 ```text
 Login → Auth::user() → ContextResolver
    ↓ session kosong?
    ↓ primary unit → organization
-   ↓ session punya id? → pakai dari session
+   ↓ session punya unit_id? → pakai dari session
 Context tersimpan di container (singleton)
    ↓
 app(OrganizationContext::class)->organization()
@@ -92,13 +95,13 @@ User Login
    ↓
 Auth::user() tersedia
    ↓
-Session punya organization_id? ── ya → pakai
+Session punya unit_id? ── ya → validasi unit di-assign ── ya → current unit = unit tsb
+   ↓ tidak / tidak valid              ↓ tidak valid → clear session
+Primary organizational unit? ── ya → current unit = primary
    ↓ tidak
-Primary organizational unit? ── ya → set organization dari unit
+Unit pertama yang di-assign? ── pakai
    ↓ tidak
-Unit pertama yang di-assign? ── ya → set organization dari unit
-   ↓ tidak
-Organization dari pivot organization_user? ── ya → set
+Organization dari pivot organization_user? ── ya → org context tersedia, unit context kosong
    ↓ tidak
 Context kosong (has() = false)
 ```
