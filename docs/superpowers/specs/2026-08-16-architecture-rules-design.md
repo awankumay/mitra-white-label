@@ -121,33 +121,41 @@ konvensi folder.
    instance model); sisanya `MultiParamMethod.stub` (dengan instance model).
    `merge => true` menggabungkan method default dengan method per-resource.
 4. **Format permission** (dengan `case => 'snake'`, `separator => ':'`,
-   `subject => 'model'`):
+   `subject => 'model'`): `format(case, affix) . ':' . format(case, subject)`
+   — **affix (action) dulu, subject belakangan** (default Shield v4.3.1):
 
    ```text
-   product:view_any
-   product:view
-   product:create
-   product:update
-   product:delete
-   product:restore
-   product:force_delete
-   product:force_delete_any
-   product:restore_any
-   product:replicate
-   product:reorder
+   view_any:product
+   view:product
+   create:product
+   update:product
+   delete:product
+   restore:product
+   force_delete:product
+   force_delete_any:product
+   restore_any:product
+   replicate:product
+   reorder:product
    ```
 
    Untuk pages/widgets (`subject => 'class'`, prefix `view`): `view:some_page`.
-5. **Rekonsiliasi dokumen** — PRD §19 dan `naming.md` di-update dari
-   `resource.action` ke format Shield `resource:action` (snake, separator `:`).
-6. **Policy manual** — hanya untuk hal di luar resource Filament (mis. 2FA
+   (Revisi 2026-08-16: format aktual Shield v4.3.1 adalah `action:subject`,
+   bukan `resource:action` seperti keputusan awal — keputusan sesi: ikuti
+   default tool.)
+5. **Lokasi policy** — policy resource di-generate Shield. Untuk model di
+   `app/Models/`, ke `app/Policies/`; untuk model Core (di luar `app/Models/`),
+   Shield menurunkan path dari lokasi model → `core/<Domain>/Policies/`
+   (revisi 2026-08-16: keputusan sesi — ikuti default Shield).
+6. **Rekonsiliasi dokumen** — PRD §19 dan `naming.md` di-update ke format
+   Shield `action:subject` (snake, separator `:`).
+7. **Policy manual** — hanya untuk hal di luar resource Filament (mis. 2FA
    policy, kebijakan khusus domain), tetap di `app/Policies/`, mengikuti set
    method Shield. Policy yang di-generate boleh memanggil Action/Service untuk
    logika (jangan menumpuk logika di policy).
-7. **Super admin** — di-handle Shield (`intercept_gate => 'before'`); aplikasi
+8. **Super admin** — di-handle Shield (`intercept_gate => 'before'`); aplikasi
    tidak perlu bypass manual. Scope bypass administrator organisasi ditangani di
    M6.
-8. **Policy module** di `modules/<Name>/Policies/` (keputusan sesi struktur
+9. **Policy module** di `modules/<Name>/Policies/` (keputusan sesi struktur
    direktori).
 
 ## 6. Konvensi Action

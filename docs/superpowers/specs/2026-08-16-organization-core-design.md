@@ -25,7 +25,8 @@ Deliverable:
    seeder (default organization + root unit).
 4. **Config** — Shield `custom_permissions` + tab custom_permissions;
    `core.organization.max_depth`.
-5. **Perbaikan** — 3 policy usang (User/Activity/Role) ke format colon.
+5. **Perbaikan** — 3 policy usang (User/Activity/Role) ke format
+   `action:subject`.
 6. **Update docs** — konvensi (bila perlu), TODO.md §4.
 
 **Defer ke milestone berikutnya:** §5 Organizational Context (context
@@ -44,17 +45,19 @@ resolution, switching, persistence), §6 Data Scope, HRIS master data
 - PRD §12: unit type default HEAD_OFFICE/BRANCH/SUB_OFFICE/SITE; Core tidak
   bergantung business-specific types (extensible).
 - Directory-structure (accepted): model Core di `core/<Domain>/Models/`;
-  policy (termasuk milik Core) di `app/Policies/`; Actions di
+  policy (termasuk milik Core) di `app/Policies/` (revisi sesi: policy
+  resource model Core di-generate Shield ke `core/<Domain>/Policies/` —
+  lihat §6.1); Actions di
   `core/<Domain>/Actions/`; factory Core di `core/Database/Factories/`;
   resource Filament di `app/Filament/Resources/`.
 - Architecture-rules spec §5.2 (accepted): format permission Shield
-  `resource:action` (separator `:`, case snake) — `product:view_any`;
+  `action:subject` (separator `:`, case snake) — `view_any:product`;
   Shield auto-generate policy untuk resource Filament (`policies.generate`
   dan `merge` aktif); developer tidak menulis policy manual untuk resource.
+  (Revisi sesi 2026-08-16: format aktual Shield v4.3.1 = `action:subject`.)
 - Kondisi aktual: 3 policy (`UserPolicy`, `ActivityPolicy`, `RolePolicy`)
-  memakai format lama underscore (`view_any_user`) — inkonsisten dengan
-  config Shield (`separator => ':'`) dan WhiteLabelSettingsPolicy yang
-  sudah benar (`view_any:white_label_settings`). Perlu disinkronkan.
+  sempat memakai format lama underscore (`view_any_user`) — sudah
+  disinkronkan ke format Shield via `shield:generate` (`view_any:user`).
 - `Core\` → `core/` ter-autoload PSR-4 (composer.json) — model di
   `core/Organization/Models/` otomatis ter-discover.
 
@@ -117,9 +120,9 @@ dipakai Filament maupun service/job/console (PRD §15 non-UI). Tanpa
 
 ### 3.6 Policy & permission
 
-- Policy CRUD Organization/Unit **di-generate Shield** (format
-  `organization:view_any`, `organizational_unit:view_any`, dsb.) — tidak
-  ditulis manual (spec §5.2).
+- Policy CRUD Organization/Unit **di-generate Shield** ke
+  `core/Organization/Policies/` (format `view_any:organization`,
+  `view:organizational_unit`, dsb.) — tidak ditulis manual (spec §5.2).
 - `OrganizationalAccessPolicy` (manual) untuk assignment custom:
   `assign_user_to_unit`, `remove_user_from_unit`, `set_primary_unit`.
 - Shield config: `custom_permissions` diisi 3 permission assignment;
@@ -254,17 +257,18 @@ static factory `invalidHierarchy(string $message)`, `invalidAssignment(string $m
 ### 6.1 Shield auto-generate (CRUD)
 
 Resource Organization & OrganizationalUnit → `shield:generate` membuat
-`OrganizationPolicy` & `OrganizationalUnitPolicy` di `app/Policies/` dengan
-11 method, format permission colon:
+`OrganizationPolicy` & `OrganizationalUnitPolicy` di `core/Organization/Policies/`
+(Shield menurunkan path policy dari lokasi model — keputusan sesi: ikuti
+default Shield v4.3.1) dengan 11 method, format permission `action:subject`:
 
 ```text
-organization:view_any, organization:view, organization:create,
-organization:update, organization:delete, organization:restore,
-organization:force_delete, organization:force_delete_any,
-organization:restore_any, organization:replicate, organization:reorder
+view_any:organization, view:organization, create:organization,
+update:organization, delete:organization, restore:organization,
+force_delete:organization, force_delete_any:organization,
+restore_any:organization, replicate:organization, reorder:organization
 ```
 
-(sama untuk `organizational_unit:*`).
+(sama untuk `organizational_unit`).
 
 ### 6.2 `OrganizationalAccessPolicy` (manual, custom)
 
@@ -293,15 +297,16 @@ Didaftarkan eksplisit (tidak terikat resource tunggal).
 
 ### 6.4 Perbaikan policy usang
 
-`UserPolicy`, `ActivityPolicy`, `RolePolicy` → format colon
-(`user:view_any`, `activity:view`, `role:view`, dst.) — via `shield:generate`
+`UserPolicy`, `ActivityPolicy`, `RolePolicy` → format `action:subject`
+(`view_any:user`, `view:activity`, `view:role`, dst.) — via `shield:generate`
 (merge) atau edit manual.
 
 ### 6.5 Registrasi
 
 Auto-discovery Laravel (konvensi nama class) bekerja untuk
 `OrganizationPolicy`/`OrganizationalUnitPolicy` (model Core, nama akhir
-class cocok). `OrganizationalAccessPolicy` didaftarkan di `AppServiceProvider`.
+class cocok; lokasi `core/Organization/Policies/`). `OrganizationalAccessPolicy`
+didaftarkan di `AppServiceProvider`.
 
 ## 7. Filament UI
 

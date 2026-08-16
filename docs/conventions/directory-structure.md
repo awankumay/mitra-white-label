@@ -147,9 +147,13 @@ Berlaku konsisten di `core/`, `app/`, dan `modules/` (detail: spec
 
 ### Policies
 
-- Semua policy — termasuk untuk model milik Core — di `app/Policies/`
-  (`app/Policies/OrganizationPolicy.php`). Authorization adalah concern
-  application layer; Core bebas dari konsep policy (ADR-005).
+- Policy **manual** (di luar resource Filament — mis. `OrganizationalAccessPolicy`,
+  kebijakan khusus domain) di `app/Policies/`. Authorization adalah concern
+  application layer.
+- Policy resource untuk model Core **di-generate Shield** ke
+  `core/<Domain>/Policies/` (Shield menurunkan path dari lokasi model —
+  keputusan sesi 2026-08-16: ikuti default Shield v4.3.1); model
+  `app/Models/` → `app/Policies/`.
 - Policy milik module di `modules/<Name>/Policies/`.
 
 ### Support
