@@ -70,20 +70,20 @@
 
 # 2. Configuration & Environment
 
-- [ ] Review `.env.example`
-- [ ] Define required environment variables
-- [ ] Define optional environment variables
-- [ ] Define application configuration
-- [ ] Define Core configuration
-- [ ] Define security configuration
-- [ ] Define organization configuration
-- [ ] Define branding configuration
-- [ ] Define feature configuration
-- [ ] Define localization configuration
-- [ ] Define database configuration
-- [ ] Define cache configuration
-- [ ] Define queue configuration
-- [ ] Define filesystem configuration
+- [x] Review `.env.example` — `.env.example`, spec §5
+- [x] Define required environment variables — `docs/conventions/environment.md`, spec §3.2
+- [x] Define optional environment variables — `docs/conventions/environment.md`, spec §3.2
+- [x] Define application configuration — `docs/conventions/environment.md`, spec §4
+- [x] Define Core configuration — `docs/conventions/environment.md`, spec §4
+- [x] Define security configuration — `docs/conventions/environment.md`, spec §4
+- [ ] Define organization configuration — defer ke milestone Organization
+- [ ] Define branding configuration — defer ke milestone White Label
+- [ ] Define feature configuration — defer ke milestone Feature Registry
+- [x] Define localization configuration — `docs/conventions/environment.md`, spec §4
+- [x] Define database configuration — `docs/conventions/environment.md`, spec §4
+- [x] Define cache configuration — `docs/conventions/environment.md`, spec §4
+- [x] Define queue configuration — `docs/conventions/environment.md`, spec §4
+- [x] Define filesystem configuration — `docs/conventions/environment.md`, spec §4
 
 ---
 
