@@ -22,6 +22,8 @@
 - Migration dianggap immutable setelah rilis; pra-rilis boleh edit (proyek ini pra-rilis).
 - Tidak menambah dependency baru (validasi package: tidak ada yang layak).
 - `composer check` (Pint → Pest → PHPStan) adalah quality gate — wajib lolos di tiap akhir task.
+- UUID di-generate via Eloquent `creating` event (HasUuids). Jangan panggil `Event::fake()` SEBELUM factory `->create()` — itu membungkam `creating` event dan menghasilkan UUID kosong (rules/testing.md:29). Pola aman: `User::factory()->create()` dulu, `Event::fake()` setelahnya.
+- UUID adalah keputusan arsitektur (ADR-004: integrasi lintas instalasi standalone), BUKAN mekanisme keamanan — jangan menambahkan dokumentasi/komentar yang mengklaim UUID "mengamankan" data sensitif (tidak ada basis di rules/security.md).
 - Commit message: conventional commits (`docs:`, `feat:`, `test:`), satu task = satu commit.
 
 ---
