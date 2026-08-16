@@ -55,7 +55,7 @@ final class ContextResolver
         $unit = $this->resolveCurrentUnit($user);
 
         if ($unit !== null) {
-            return $unit->organization;
+            return Organization::find($unit->organization_id);
         }
 
         return $this->firstOrganization($user);
