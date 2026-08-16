@@ -386,21 +386,17 @@ dan di body class:
 use HasFactory, UsesUuid, SoftDeletes;
 ```
 
-- [ ] **Step 5: Update factory User (jika perlu)**
-
-Cek `database/factories/UserFactory.php` — pastikan tidak mengasumsikan PK int (biasanya tidak). Jika ada `$user->id` int di test lain, sesuaikan.
-
-- [ ] **Step 6: Run test — pastikan pass**
+- [ ] **Step 5: Run test — pastikan pass**
 
 Run: `vendor/bin/pest tests/Feature/Database/UsersUuidTest.php`
 Expected: PASS (3 tests).
 
-- [ ] **Step 7: Run quality gate**
+- [ ] **Step 6: Run quality gate**
 
 Run: `composer check`
 Expected: Pint, Pest, PHPStan semua lolos.
 
-- [ ] **Step 8: Commit**
+- [ ] **Step 7: Commit**
 
 ```bash
 git add database/migrations/0001_01_01_000000_create_users_table.php app/Models/User.php tests/Feature/Database/UsersUuidTest.php
