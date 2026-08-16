@@ -7,6 +7,7 @@ use App\Policies\OrganizationalAccessPolicy;
 use BezhanSalleh\FilamentShield\Facades\FilamentShield;
 use Filament\Tables\Columns\Column;
 use Filament\Tables\Table;
+use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -39,6 +40,17 @@ class AppServiceProvider extends ServiceProvider
         $this->configureFilament();
 
         $this->configureLimit();
+
+        $this->configureAuthRedirect();
+    }
+
+    private function configureAuthRedirect(): void
+    {
+        Authenticate::redirectUsing(
+            fn (Request $request) => $request->expectsJson()
+                ? null
+                : route('filament.admin.auth.login')
+        );
     }
 
     private function configurePolicies(): void
