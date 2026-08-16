@@ -44,16 +44,16 @@
 
 ## 1.2 Directory Structure
 
-- [ ] Define final `app/` structure
-- [ ] Define `Core` structure
-- [ ] Define `Domain` conventions
-- [ ] Define `Actions` conventions
-- [ ] Define `Services` conventions
-- [ ] Define `Contracts` conventions
-- [ ] Define `Enums` conventions
-- [ ] Define `Support` conventions
-- [ ] Define `Filament` conventions
-- [ ] Define `modules/` conventions
+- [x] Define final `app/` structure — `docs/conventions/directory-structure.md`, spec §3.2
+- [x] Define `Core` structure — `docs/conventions/directory-structure.md`, spec §3.1
+- [x] Define `Domain` conventions — `docs/conventions/directory-structure.md`, spec §4.1
+- [x] Define `Actions` conventions — `docs/conventions/directory-structure.md`, spec §4.2
+- [x] Define `Services` conventions — `docs/conventions/directory-structure.md`, spec §4.3
+- [x] Define `Contracts` conventions — `docs/conventions/directory-structure.md`, spec §4.4
+- [x] Define `Enums` conventions — `docs/conventions/directory-structure.md`, spec §4.5
+- [x] Define `Support` conventions — `docs/conventions/directory-structure.md`, spec §4.7
+- [x] Define `Filament` conventions — `docs/conventions/directory-structure.md`, spec §3.2, §4.8
+- [x] Define `modules/` conventions — `docs/conventions/directory-structure.md`, spec §3.3
 
 ## 1.3 Architecture Rules
 
