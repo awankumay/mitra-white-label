@@ -14,56 +14,56 @@ class ActivityPolicy
 
     public function viewAny(AuthUser $authUser): bool
     {
-        return $authUser->can('view_any_activity');
+        return $authUser->can('activity:view_any');
     }
 
     public function view(AuthUser $authUser, Activity $activity): bool
     {
-        return $authUser->can('view_activity');
+        return $authUser->can('activity:view');
     }
 
     public function create(AuthUser $authUser): bool
     {
-        return $authUser->can('create_activity');
+        return $authUser->can('activity:create');
     }
 
     public function update(AuthUser $authUser, Activity $activity): bool
     {
-        return $authUser->can('update_activity');
+        return $authUser->can('activity:update');
     }
 
     public function delete(AuthUser $authUser, Activity $activity): bool
     {
-        return $authUser->can('delete_activity');
+        return $authUser->can('activity:delete');
     }
 
     public function restore(AuthUser $authUser, Activity $activity): bool
     {
-        return $authUser->can('restore_activity');
+        return $authUser->can('activity:restore');
     }
 
     public function forceDelete(AuthUser $authUser, Activity $activity): bool
     {
-        return $authUser->can('force_delete_activity');
+        return $authUser->can('activity:force_delete');
     }
 
     public function forceDeleteAny(AuthUser $authUser): bool
     {
-        return $authUser->can('force_delete_any_activity');
+        return $authUser->can('activity:force_delete_any');
     }
 
     public function restoreAny(AuthUser $authUser): bool
     {
-        return $authUser->can('restore_any_activity');
+        return $authUser->can('activity:restore_any');
     }
 
     public function replicate(AuthUser $authUser, Activity $activity): bool
     {
-        return $authUser->can('replicate_activity');
+        return $authUser->can('activity:replicate');
     }
 
     public function reorder(AuthUser $authUser): bool
     {
-        return $authUser->can('reorder_activity');
+        return $authUser->can('activity:reorder');
     }
 }

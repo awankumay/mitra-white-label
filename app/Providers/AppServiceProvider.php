@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Policies\ActivityPolicy;
+use App\Policies\OrganizationalAccessPolicy;
 use BezhanSalleh\FilamentShield\Facades\FilamentShield;
 use Filament\Tables\Columns\Column;
 use Filament\Tables\Table;
@@ -19,6 +20,7 @@ class AppServiceProvider extends ServiceProvider
 {
     protected array $policies = [
         Activity::class => ActivityPolicy::class,
+        OrganizationalAccessPolicy::class => OrganizationalAccessPolicy::class,
     ];
 
     public function register(): void

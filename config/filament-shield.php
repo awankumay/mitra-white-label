@@ -21,7 +21,7 @@ return [
             'pages' => true,
             'widgets' => true,
             'resources' => true,
-            'custom_permissions' => false,
+            'custom_permissions' => true,
         ],
     ],
 
@@ -235,7 +235,11 @@ return [
     |
     */
 
-    'custom_permissions' => [],
+    'custom_permissions' => [
+        'assign_user_to_unit',
+        'remove_user_from_unit',
+        'set_primary_unit',
+    ],
 
     /*
     |--------------------------------------------------------------------------
