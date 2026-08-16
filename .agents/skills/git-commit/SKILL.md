@@ -11,6 +11,13 @@ allowed-tools: Bash
 
 Create standardized, semantic git commits using the Conventional Commits specification. Analyze the actual diff to determine appropriate type, scope, and message.
 
+> **Project-specific conventions:** in this repository, follow `CLAUDE.md` →
+> "Git Workflow" on top of the generic rules below — notably, pick `<scope>`
+> from an `app-modules/*` domain name (e.g. finance, accounting,
+> cross-tenant, purchasing, sales) or a repo-level scope (docs, deps, ci,
+> config, tests) rather than inventing one, and write the `<description>`
+> (and body) in Bahasa Indonesia, imperative present tense.
+
 ## Conventional Commit Format
 
 ```
