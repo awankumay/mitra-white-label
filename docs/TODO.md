@@ -57,14 +57,14 @@
 
 ## 1.3 Architecture Rules
 
-- [ ] Define Core dependency rules
-- [ ] Prevent Core → Business Module dependency
-- [ ] Define Module → Core dependency rules
-- [ ] Define Model conventions
-- [ ] Define Policy conventions
-- [ ] Define Action conventions
-- [ ] Define Service conventions
-- [ ] Define Event/Listener conventions
+- [x] Define Core dependency rules — `docs/conventions/coding.md`, spec §3
+- [x] Prevent Core → Business Module dependency — `docs/conventions/coding.md`, spec §3.1, arch test §3.2
+- [x] Define Module → Core dependency rules — `docs/conventions/coding.md`, spec §3.1
+- [x] Define Model conventions — `docs/conventions/coding.md`, spec §4
+- [x] Define Policy conventions — `docs/conventions/coding.md`, spec §5
+- [x] Define Action conventions — `docs/conventions/coding.md`, spec §6
+- [x] Define Service conventions — `docs/conventions/coding.md`, spec §7
+- [x] Define Event/Listener conventions — `docs/conventions/coding.md`, spec §8
 
 ---
 
