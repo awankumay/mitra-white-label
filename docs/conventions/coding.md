@@ -39,8 +39,11 @@ environment.md, spec `docs/superpowers/specs/2026-08-16-architecture-rules-desig
 
 ### Policy
 
-- Policy untuk resource Filament di-generate Filament Shield ke `app/Policies/`.
-- Format permission: `resource:action` (separator `:`, snake).
+- Policy untuk resource Filament di-generate Filament Shield: model `app/Models/`
+  → `app/Policies/`; model Core → `core/<Domain>/Policies/` (Shield menurunkan
+  path dari lokasi model).
+- Format permission: `action:subject` (separator `:`, snake) — mis.
+  `view:users`, `create:organization` (default Shield v4.3.1).
 - Policy manual hanya untuk di luar resource Filament; jangan menumpuk logika
   bisnis di policy (delegasikan ke Action/Service).
 
