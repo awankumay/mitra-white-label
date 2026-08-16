@@ -202,3 +202,11 @@ null
 - Data Scope Architecture (§6) — milestone terpisah.
 - Filament tenancy / multi-tenant (PRD §31 out-of-scope Core v1).
 - Helper global (`context_unit()`, `context_organization()`) — ditunda, bisa ditambahkan saat dibutuhkan.
+
+## 11. Non-Filament Usage (Praktik)
+
+- **Services/Actions**: `app(OrganizationalUnitContext::class)->current()` — tersedia jika session ada; di CLI/queue, `null`.
+- **Policies**: cek `$context->has()` + `$context->currentId()` sebelum otorisasi scope.
+- **Jobs**: set context eksplisit di `handle()` via `app(OrganizationalUnitContext::class)->set($unit)` atau terima `unit_id` di constructor; jangan andalkan session.
+- **Console Commands**: opsi `--unit=` untuk men-set context, atau `set()` manual.
+- **Model scoping** (Data Scope, §6) adalah milestone terpisah — jangan implementasikan di M4.
