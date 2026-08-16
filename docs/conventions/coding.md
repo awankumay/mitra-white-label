@@ -3,7 +3,7 @@
 **Status:** Accepted
 **Tanggal:** 2026-08-16
 **Referensi:** ADR-001 s.d. ADR-010, naming.md, directory-structure.md,
-spec `docs/superpowers/specs/2026-08-16-architecture-rules-design.md`
+environment.md, spec `docs/superpowers/specs/2026-08-16-architecture-rules-design.md`
 
 ## Quality Gate
 
