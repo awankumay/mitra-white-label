@@ -64,6 +64,8 @@
 | `DB_CHARSET` | optional | utf8mb4 | Charset | config/database.php |
 | `DB_COLLATION` | optional | utf8mb4_unicode_ci | Collation | config/database.php |
 | `MYSQL_ATTR_SSL_CA` | optional | — | SSL CA untuk MySQL | config/database.php |
+| `DB_ENCRYPT` | optional | — | Enkripsi koneksi SQL Server | config/database.php |
+| `DB_TRUST_SERVER_CERTIFICATE` | optional | — | Trust certificate SQL Server | config/database.php |
 
 ### Redis (opsional)
 
@@ -98,6 +100,7 @@
 | `SESSION_HTTP_ONLY` | optional | true | Cookie httpOnly | config/session.php |
 | `SESSION_SAME_SITE` | optional | lax | SameSite policy | config/session.php |
 | `SESSION_PARTITIONED` | optional | false | Partitioned cookie | config/session.php |
+| `SESSION_PARTITIONED_COOKIE` | optional | false | Partitioned cookie (langsung) | config/session.php |
 
 ### Cache
 
@@ -203,6 +206,7 @@
 | Variabel | Tipe | Default | Deskripsi | Sumber |
 |---|---|---|---|---|
 | `POSTMARK_TOKEN` | optional | — | Token Postmark | config/services.php |
+| `POSTMARK_MESSAGE_STREAM_ID` | optional | — | Message stream Postmark | config/services.php |
 | `RESEND_KEY` | optional | — | API key Resend | config/services.php |
 | `SLACK_BOT_USER_OAUTH_TOKEN` | optional | — | Token Slack | config/services.php |
 | `SLACK_BOT_USER_DEFAULT_CHANNEL` | optional | — | Channel default Slack | config/services.php |
