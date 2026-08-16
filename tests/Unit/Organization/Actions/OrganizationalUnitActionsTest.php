@@ -56,6 +56,20 @@ class OrganizationalUnitActionsTest extends TestCase
         $this->assertSame('New Name', $updated->name);
     }
 
+    public function test_update_cannot_change_organization(): void
+    {
+        $unit = OrganizationalUnit::factory()->create();
+        $otherOrg = Organization::factory()->create();
+
+        $updated = app(UpdateOrganizationalUnitAction::class)->handle($unit, [
+            'name' => 'Stays Put',
+            'organization_id' => $otherOrg->id,
+        ]);
+
+        $this->assertSame($unit->organization_id, $updated->organization_id);
+        $this->assertNotSame($otherOrg->id, $updated->organization_id);
+    }
+
     public function test_delete_unit_soft_deletes(): void
     {
         $unit = OrganizationalUnit::factory()->create();
@@ -115,5 +129,38 @@ class OrganizationalUnitActionsTest extends TestCase
             OrganizationalUnitType::SITE,
             $parent->id
         );
+    }
+
+    public function test_unit_at_max_depth_cannot_have_child(): void
+    {
+        $org = Organization::factory()->create();
+        config(['core.organization.max_depth' => 3]);
+
+        // root (depth 1) → child (depth 2) → grandchild (depth 3 = max depth, valid)
+        $level1 = OrganizationalUnit::factory()->create(['organization_id' => $org->id]);
+        $level2 = OrganizationalUnit::factory()->create(['organization_id' => $org->id, 'parent_id' => $level1->id]);
+        $level3 = OrganizationalUnit::factory()->create(['organization_id' => $org->id, 'parent_id' => $level2->id]);
+
+        $this->expectException(OrganizationException::class);
+        app(CreateOrganizationalUnitAction::class)->handle(
+            $org,
+            'Too Deep',
+            OrganizationalUnitType::SITE,
+            $level3->id
+        );
+    }
+
+    public function test_move_under_unit_at_max_depth_throws(): void
+    {
+        $org = Organization::factory()->create();
+        config(['core.organization.max_depth' => 3]);
+
+        $level1 = OrganizationalUnit::factory()->create(['organization_id' => $org->id]);
+        $level2 = OrganizationalUnit::factory()->create(['organization_id' => $org->id, 'parent_id' => $level1->id]);
+        $level3 = OrganizationalUnit::factory()->create(['organization_id' => $org->id, 'parent_id' => $level2->id]);
+        $move = OrganizationalUnit::factory()->create(['organization_id' => $org->id]);
+
+        $this->expectException(OrganizationException::class);
+        app(UpdateOrganizationalUnitAction::class)->handle($move, ['parent_id' => $level3->id]);
     }
 }

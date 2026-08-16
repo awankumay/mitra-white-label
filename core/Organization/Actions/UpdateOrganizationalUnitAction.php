@@ -13,6 +13,8 @@ final class UpdateOrganizationalUnitAction
             $this->assertValidParent($unit, $data['parent_id']);
         }
 
+        unset($data['organization_id']); // immutable — ditetapkan sekali saat create
+
         $unit->update($data);
 
         return $unit->fresh();
@@ -66,7 +68,7 @@ final class UpdateOrganizationalUnitAction
             $depth++;
             $unit = $unit->parent;
 
-            if ($depth > $maxDepth) {
+            if ($depth >= $maxDepth) {
                 throw OrganizationException::invalidHierarchy(
                     "Kedalaman hierarki melebihi batas maksimum {$maxDepth} level."
                 );

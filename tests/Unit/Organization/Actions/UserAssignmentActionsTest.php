@@ -50,6 +50,35 @@ class UserAssignmentActionsTest extends TestCase
         $this->assertFalse($user->units()->where('organizational_units.id', $unit->id)->exists());
     }
 
+    public function test_removing_non_primary_unit_keeps_primary(): void
+    {
+        $user = User::factory()->create();
+        $primary = OrganizationalUnit::factory()->create();
+        $other = OrganizationalUnit::factory()->create();
+        $user->units()->attach([$primary->id, $other->id]);
+        $user->update(['primary_organizational_unit_id' => $primary->id]);
+
+        app(RemoveUserFromUnitAction::class)->handle($user, $other);
+
+        $fresh = $user->fresh();
+        $this->assertSame($primary->id, $fresh->primary_organizational_unit_id);
+        $this->assertFalse($fresh->units()->where('organizational_units.id', $other->id)->exists());
+    }
+
+    public function test_removing_primary_unit_nulls_primary(): void
+    {
+        $user = User::factory()->create();
+        $primary = OrganizationalUnit::factory()->create();
+        $user->units()->attach($primary);
+        $user->update(['primary_organizational_unit_id' => $primary->id]);
+
+        app(RemoveUserFromUnitAction::class)->handle($user, $primary);
+
+        $fresh = $user->fresh();
+        $this->assertNull($fresh->primary_organizational_unit_id);
+        $this->assertFalse($fresh->units()->where('organizational_units.id', $primary->id)->exists());
+    }
+
     public function test_set_primary_unit_requires_assignment(): void
     {
         $user = User::factory()->create();

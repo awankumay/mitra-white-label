@@ -19,15 +19,9 @@ class OrganizationalAccessSchema
             Select::make('primary_organizational_unit_id')
                 ->label('Primary Unit')
                 ->relationship('primaryOrganizationalUnit', 'name')
+                ->options(fn ($record) => $record === null ? [] : $record->units->pluck('name', 'id'))
                 ->searchable()
-                ->preload()
-                ->options(function ($record) {
-                    if ($record === null) {
-                        return [];
-                    }
-
-                    return $record->units->pluck('name', 'id');
-                }),
+                ->preload(),
         ];
     }
 

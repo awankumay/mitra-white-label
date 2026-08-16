@@ -6,6 +6,7 @@ use Core\Organization\Enums\OrganizationalUnitType;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 
 class OrganizationalUnitForm
@@ -19,9 +20,10 @@ class OrganizationalUnitForm
                     ->searchable()
                     ->preload()
                     ->required()
-                    ->live(),
+                    ->live()
+                    ->afterStateUpdated(fn (Set $set) => $set('parent_id', null)),
                 Select::make('parent_id')
-                    ->relationship('parent', 'name', modifyQueryUsing: fn ($query, Get $get) => $query->where('organization_id', $get('organization_id')))
+                    ->relationship('parent', 'name', modifyQueryUsing: fn ($query, Get $get) => $query->where('organization_id', $get('organization_id')), ignoreRecord: true)
                     ->searchable()
                     ->preload()
                     ->nullable()

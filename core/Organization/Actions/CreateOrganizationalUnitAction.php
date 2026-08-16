@@ -52,7 +52,7 @@ final class CreateOrganizationalUnitAction
             $depth++;
             $unit = $unit->parent;
 
-            if ($depth > $maxDepth) {
+            if ($depth >= $maxDepth) {
                 throw OrganizationException::invalidHierarchy(
                     "Kedalaman hierarki melebihi batas maksimum {$maxDepth} level."
                 );
