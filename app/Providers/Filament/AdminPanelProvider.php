@@ -105,6 +105,10 @@ class AdminPanelProvider extends PanelProvider
                     ->rememberLocale()
                     ->renderHook(PanelsRenderHook::USER_MENU_BEFORE),
             ])
+            ->renderHook(
+                PanelsRenderHook::USER_MENU_BEFORE,
+                fn (): \Illuminate\View\View => view('panel.unit-switcher'),
+            )
             ->sidebarWidth('14rem')
             ->authMiddleware([
                 Authenticate::class,
