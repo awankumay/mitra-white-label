@@ -95,7 +95,8 @@ modules/                  # Business modules — namespace Modules\<Name>\
 - `core/` non-UI tidak bergantung pada Filament; komponen UI Core hidup di
   `core/Filament/` (pengecualian arch test ADR-005).
 - Model milik Core hidup di subfolder domain-nya (`core/Organization/Models/`),
-  bukan di `app/Models/`; policy-nya tetap di `app/Policies/`.
+  bukan di `app/Models/`; policy resource-nya di-generate Shield ke
+  `core/<Domain>/Policies/` (lihat konvensi Policies).
 - `app/Filament/` hanya berisi komponen UI; logika bisnis di
   Domain/Actions/Services.
 - `modules/` opsional; struktur module mengikuti ADR-006 dan memakai pola
@@ -122,6 +123,10 @@ Berlaku konsisten di `core/`, `app/`, dan `modules/` (detail: spec
 - Konvensi: nama `VerbNoun` (naming.md), class `final`, method `handle()`,
   dependency injection via constructor (bukan `app()`/`resolve()`).
 - Bukan isi: orkestrasi multi-langkah (→ Services).
+- Action yang melibatkan `App\Models\User` (mis. assignment user → unit:
+  `app/Actions/Organization/AssignUserToUnitAction.php` dkk) hidup di
+  `app/Actions/` — bukan di `core/<Domain>/Actions/` — karena Core tidak
+  boleh mengimpor App (arch test ADR-005); app layer boleh mengimpor Core.
 
 ### Services
 

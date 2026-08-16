@@ -124,32 +124,32 @@
 
 ## 4.1 Organization
 
-- [ ] Create Organization model
-- [ ] Create Organization migration
-- [ ] Create Organization factory
-- [ ] Create Organization policy
-- [ ] Create Organization service/action layer
-- [ ] Create Organization Filament resource/page
+- [x] Create Organization model — `core/Organization/Models/Organization.php`
+- [x] Create Organization migration — `core/Database/Migrations/2026_08_16_000001_create_organizations_table.php` (M2)
+- [x] Create Organization factory — `core/Database/Factories/OrganizationFactory.php`
+- [x] Create Organization policy — `core/Organization/Policies/OrganizationPolicy.php` (Shield, format `action:subject`)
+- [x] Create Organization service/action layer — `core/Organization/Actions/`
+- [x] Create Organization Filament resource/page — `app/Filament/Resources/Organizations/`
 
 ## 4.2 Organizational Unit
 
-- [ ] Create OrganizationalUnit model
-- [ ] Create migration
-- [ ] Create factory
-- [ ] Create policy
-- [ ] Implement parent/child relationship
-- [ ] Implement hierarchy queries
-- [ ] Implement root unit support
-- [ ] Implement unit types
-- [ ] Create Filament management UI
+- [x] Create OrganizationalUnit model — `core/Organization/Models/OrganizationalUnit.php`
+- [x] Create migration — `core/Database/Migrations/2026_08_16_000002_create_organizational_units_table.php` (M2)
+- [x] Create factory — `core/Database/Factories/OrganizationalUnitFactory.php`
+- [x] Create policy — `core/Organization/Policies/OrganizationalUnitPolicy.php` (Shield, format `action:subject`)
+- [x] Implement parent/child relationship — `parent()`/`children()` di model; validasi parent se-organization + batas kedalaman di `CreateOrganizationalUnitAction`
+- [ ] Implement hierarchy queries — **deferred ke §5** (lanjutan: recursive CTE untuk subtree/descendant/ancestor queries)
+- [ ] Implement root unit support — **deferred ke §5** (root unit sebagai context default saat switching; seeder sudah membuat root unit)
+- [x] Implement unit types — `core/Organization/Enums/OrganizationalUnitType.php` (4 case, cast di model)
+- [x] Create Filament management UI — `app/Filament/Resources/OrganizationalUnits/`
 
 ## 4.3 User Assignment
 
-- [ ] Implement user → organizational unit assignment
-- [ ] Implement multiple unit access
-- [ ] Implement primary organizational unit
-- [ ] Validate assignment permissions
-- [ ] Create assignment management UI
+- [x] Implement user → organizational unit assignment — `app/Actions/Organization/AssignUserToUnitAction.php`
+- [x] Implement multiple unit access — pivot `organizational_unit_user` + relasi `units()` (BelongsToMany)
+- [x] Implement primary organizational unit — `app/Actions/Organization/SetPrimaryUnitAction.php` + `primary_organizational_unit_id`
+- [x] Validate assignment permissions — policy Shield `action:subject` + `app/Policies/OrganizationalAccessPolicy.php`
+- [x] Create assignment management UI — `app/Filament/Resources/Users/Schemas/OrganizationalAccessSchema.php` (di UserForm)
 
 ---
 
