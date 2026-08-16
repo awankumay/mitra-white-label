@@ -200,6 +200,8 @@
 | `AUTH_MODEL` | optional | App\Models\User | Model user | config/auth.php |
 | `AUTH_PASSWORD_RESET_TOKEN_TABLE` | optional | password_reset_tokens | Tabel reset token | config/auth.php |
 | `AUTH_PASSWORD_TIMEOUT` | optional | 10800 | Timeout reset (detik) | config/auth.php |
+| `AUTH_2FA_FORCE` | optional | false | Wajibkan 2FA untuk semua user | config/core.php |
+| `AUTH_PASSKEY_RP_ID` | optional | — | Relying party ID passkey (default: request host) | config/core.php |
 
 ### Services
 
