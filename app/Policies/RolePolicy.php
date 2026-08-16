@@ -14,56 +14,56 @@ class RolePolicy
 
     public function viewAny(AuthUser $authUser): bool
     {
-        return $authUser->can('role:view_any');
+        return $authUser->can('view_any:role');
     }
 
     public function view(AuthUser $authUser, Role $role): bool
     {
-        return $authUser->can('role:view');
+        return $authUser->can('view:role');
     }
 
     public function create(AuthUser $authUser): bool
     {
-        return $authUser->can('role:create');
+        return $authUser->can('create:role');
     }
 
     public function update(AuthUser $authUser, Role $role): bool
     {
-        return $authUser->can('role:update');
+        return $authUser->can('update:role');
     }
 
     public function delete(AuthUser $authUser, Role $role): bool
     {
-        return $authUser->can('role:delete');
+        return $authUser->can('delete:role');
     }
 
     public function restore(AuthUser $authUser, Role $role): bool
     {
-        return $authUser->can('role:restore');
+        return $authUser->can('restore:role');
     }
 
     public function forceDelete(AuthUser $authUser, Role $role): bool
     {
-        return $authUser->can('role:force_delete');
+        return $authUser->can('force_delete:role');
     }
 
     public function forceDeleteAny(AuthUser $authUser): bool
     {
-        return $authUser->can('role:force_delete_any');
+        return $authUser->can('force_delete_any:role');
     }
 
     public function restoreAny(AuthUser $authUser): bool
     {
-        return $authUser->can('role:restore_any');
+        return $authUser->can('restore_any:role');
     }
 
     public function replicate(AuthUser $authUser, Role $role): bool
     {
-        return $authUser->can('role:replicate');
+        return $authUser->can('replicate:role');
     }
 
     public function reorder(AuthUser $authUser): bool
     {
-        return $authUser->can('role:reorder');
+        return $authUser->can('reorder:role');
     }
 }
