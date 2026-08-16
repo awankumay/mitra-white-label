@@ -4,9 +4,11 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use BezhanSalleh\FilamentShield\Traits\HasPanelShield;
+use Core\Support\Concerns\UsesUuid;
 use Database\Factories\UserFactory;
 use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
@@ -19,6 +21,8 @@ class User extends Authenticatable implements FilamentUser
     use HasPanelShield;
     use HasRoles;
     use Notifiable;
+    use SoftDeletes;
+    use UsesUuid;
 
     protected $hidden = [
         'password',

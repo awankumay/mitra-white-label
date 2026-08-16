@@ -4,6 +4,9 @@ includes:
 
 parameters:
 
+    stubFiles:
+        - phpstan/white-label-macros.stub
+
     paths:
         - app/
         - core/
