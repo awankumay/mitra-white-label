@@ -76,6 +76,22 @@ final class Scope
             ->exists();
     }
 
+    public static function canAccessOrganization(Authenticatable $user, ?string $orgId): bool
+    {
+        if (self::isSuperAdmin($user)) {
+            return true;
+        }
+
+        if ($orgId === null) {
+            return false;
+        }
+
+        return DB::table('organization_user')
+            ->where('organization_id', $orgId)
+            ->where('user_id', $user->getAuthIdentifier())
+            ->exists();
+    }
+
     public static function isSuperAdmin(Authenticatable $user): bool
     {
         return method_exists($user, 'hasRole') && $user->hasRole('super_admin');
