@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\RoleService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -9,6 +10,21 @@ use Spatie\Permission\Models\Role as SpatieRole;
 
 class Role extends SpatieRole
 {
+    protected static function booted(): void
+    {
+        static::saving(function (Role $role) {
+            if ($role->parent_role_id === null) {
+                return;
+            }
+
+            $service = app(RoleService::class);
+
+            if ($service->wouldCreateCycle($role, (string) $role->parent_role_id)) {
+                throw new \LogicException('Role hierarchy cycle detected: '.$role->name);
+            }
+        });
+    }
+
     public function parent(): BelongsTo
     {
         return $this->belongsTo(self::class, 'parent_role_id');

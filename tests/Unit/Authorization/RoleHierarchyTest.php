@@ -34,12 +34,26 @@ class RoleHierarchyTest extends TestCase
     {
         $a = Role::create(['name' => 'a']);
         $b = Role::create(['name' => 'b', 'parent_role_id' => $a->id]);
-        $a->update(['parent_role_id' => $b->id]); // cycle a<->b
+
+        // Bypass the cycle-prevention hook (booted() saving listener) by updating
+        // the column directly, so we can still verify the BFS traversal terminates.
+        Role::query()->whereKey($a->id)->update(['parent_role_id' => $b->id]);
 
         $a->refresh();
         $b->refresh();
 
         $this->assertCount(1, $a->ancestors());   // visits b once, stops before infinite loop
         $this->assertCount(1, $b->ancestors());
+    }
+
+    public function test_hook_rejects_cycle_on_update(): void
+    {
+        $a = Role::create(['name' => 'a']);
+        $b = Role::create(['name' => 'b', 'parent_role_id' => $a->id]);
+
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('Role hierarchy cycle detected');
+
+        $a->update(['parent_role_id' => $b->id]); // cycle a<->b, rejected by saving hook
     }
 }
