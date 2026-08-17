@@ -41,6 +41,8 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            ->passwordReset()
+            ->emailVerification()
             ->colors([
                 'primary' => Color::Taupe,
             ])
@@ -90,7 +92,15 @@ class AdminPanelProvider extends PanelProvider
                 FilamentBackgroundsPlugin::make(),
                 FilamentLoggerPlugin::make(),
                 BreezyCore::make()
-                    ->myProfile(),
+                    ->myProfile()
+                    ->enableTwoFactorAuthentication(
+                        force: config('core.auth.two_factor.force'),
+                    )
+                    ->enablePasskeys(
+                        relyingPartyName: config('core.auth.passkey.relying_party_name'),
+                        relyingPartyId: config('core.auth.passkey.relying_party_id') ?: null,
+                    )
+                    ->enableBrowserSessions(),
                 QuickCreatePlugin::make()
                     ->includes([
                         UserResource::class,
