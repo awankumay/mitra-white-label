@@ -2,6 +2,8 @@
 
 namespace App\Policies;
 
+use App\Models\User;
+use Core\Support\Scope;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Foundation\Auth\User as AuthUser;
 
@@ -24,24 +26,47 @@ class UserPolicy
         return $authUser->can('create:user');
     }
 
-    public function update(AuthUser $authUser): bool
+    public function update(AuthUser $authUser, User $user): bool
     {
-        return $authUser->can('update:user');
+        return $authUser->can('update:user')
+            && $this->sharesScope($authUser, $user);
     }
 
-    public function delete(AuthUser $authUser): bool
+    public function delete(AuthUser $authUser, User $user): bool
     {
-        return $authUser->can('delete:user');
+        return $authUser->can('delete:user')
+            && $this->sharesScope($authUser, $user);
     }
 
-    public function restore(AuthUser $authUser): bool
+    public function restore(AuthUser $authUser, User $user): bool
     {
-        return $authUser->can('restore:user');
+        return $authUser->can('restore:user')
+            && $this->sharesScope($authUser, $user);
     }
 
-    public function forceDelete(AuthUser $authUser): bool
+    public function forceDelete(AuthUser $authUser, User $user): bool
     {
-        return $authUser->can('force_delete:user');
+        return $authUser->can('force_delete:user')
+            && $this->sharesScope($authUser, $user);
+    }
+
+    private function sharesScope(AuthUser $authUser, User $target): bool
+    {
+        if (Scope::isSuperAdmin($authUser)) {
+            return true;
+        }
+
+        $authUnitIds = $authUser->units()->pluck('organizational_units.id');
+        $targetUnitIds = $target->units()->pluck('organizational_units.id');
+
+        if ($authUnitIds->intersect($targetUnitIds)->isNotEmpty()) {
+            return true;
+        }
+
+        $authOrgIds = $authUser->organizations()->pluck('organizations.id');
+        $targetOrgIds = $target->organizations()->pluck('organizations.id');
+
+        return $authOrgIds->intersect($targetOrgIds)->isNotEmpty();
     }
 
     public function forceDeleteAny(AuthUser $authUser): bool

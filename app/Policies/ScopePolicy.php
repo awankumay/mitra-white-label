@@ -13,7 +13,7 @@ class ScopePolicy
 
     public function view(User $authUser, OrganizationalUnit $unit): bool
     {
-        return $authUser->can('view:product')
+        return $authUser->can('view:organizational_unit')
             && Scope::can($authUser, $unit->id);
     }
 }
