@@ -42,6 +42,8 @@ class AppServiceProvider extends ServiceProvider
         $this->configureLimit();
 
         $this->configureAuthRedirect();
+
+        $this->configureSecurityEvents();
     }
 
     private function configureAuthRedirect(): void
@@ -89,5 +91,28 @@ class AppServiceProvider extends ServiceProvider
     private function configureLimit(): void
     {
         RateLimiter::for('api', fn (Request $request) => Limit::perMinute(60)->by($request->user()?->id ?: $request->ip()));
+    }
+
+    private function configureSecurityEvents(): void
+    {
+        $this->app['events']->listen(
+            Core\Security\Events\SecurityEventOccurred::class,
+            App\Listeners\Security\RecordSecurityEvent::class,
+        );
+
+        $this->app['events']->listen(
+            Illuminate\Auth\Events\Login::class,
+            App\Listeners\Security\RecordLoginSucceeded::class,
+        );
+
+        $this->app['events']->listen(
+            Illuminate\Auth\Events\Failed::class,
+            App\Listeners\Security\RecordLoginFailed::class,
+        );
+
+        $this->app['events']->listen(
+            Jeffgreco13\FilamentBreezy\Events\PasskeyUsedToAuthenticate::class,
+            App\Listeners\Security\RecordPasskeyUsed::class,
+        );
     }
 }

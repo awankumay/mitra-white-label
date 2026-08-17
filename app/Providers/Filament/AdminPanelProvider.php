@@ -93,6 +93,12 @@ class AdminPanelProvider extends PanelProvider
                 FilamentLoggerPlugin::make(),
                 BreezyCore::make()
                     ->myProfile()
+                    ->myProfileComponents([
+                        'update_password' => \App\Livewire\Security\UpdatePassword::class,
+                        'two_factor_authentication' => \App\Livewire\Security\TwoFactorAuthentication::class,
+                        'passkeys' => \App\Livewire\Security\Passkeys::class,
+                        'browser_sessions' => \App\Livewire\Security\BrowserSessions::class,
+                    ])
                     ->enableTwoFactorAuthentication(
                         force: config('core.auth.two_factor.force'),
                     )
