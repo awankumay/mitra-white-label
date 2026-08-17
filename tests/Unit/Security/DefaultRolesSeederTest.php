@@ -20,7 +20,8 @@ class DefaultRolesSeederTest extends TestCase
         $this->assertDatabaseHas('roles', ['name' => 'supervisor']);
         $this->assertDatabaseHas('roles', ['name' => 'staff']);
         $this->assertDatabaseHas('roles', ['name' => 'viewer']);
+        $this->assertDatabaseHas('roles', ['name' => 'panel_user']);
 
-        $this->assertSame(6, Role::count());
+        $this->assertSame(7, Role::count());
     }
 }

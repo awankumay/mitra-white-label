@@ -205,53 +205,56 @@
 
 # 7. Authentication
 
+> Implemented (M5). Spec: `docs/superpowers/specs/2026-08-16-authentication-security-design.md`;
+> plan: `docs/superpowers/plans/2026-08-16-authentication-security.md`.
+
 ## 7.1 Base Authentication
 
-- [ ] Review current authentication implementation
-- [ ] Configure login
-- [ ] Configure logout
-- [ ] Configure password reset
-- [ ] Configure email verification
-- [ ] Configure password confirmation
-- [ ] Configure session handling
+- [x] Review current authentication implementation
+- [x] Configure login
+- [x] Configure logout
+- [x] Configure password reset
+- [x] Configure email verification
+- [x] Configure password confirmation
+- [x] Configure session handling
 
 ## 7.2 Account Security
 
-- [ ] Install/configure selected security package(s)
-- [ ] Implement security settings page
-- [ ] Implement password change
-- [ ] Implement active session management
-- [ ] Implement session revocation
-- [ ] Implement revoke-all-other-sessions
+- [x] Install/configure selected security package(s) — Breezy v3.2
+- [ ] Implement security settings page — **deferred ke M7** (Settings System, §9.2)
+- [x] Implement password change
+- [x] Implement active session management
+- [x] Implement session revocation
+- [x] Implement revoke-all-other-sessions
 
 ## 7.3 Two-Factor Authentication
 
-- [ ] Implement TOTP
-- [ ] Implement QR enrollment
-- [ ] Implement recovery codes
-- [ ] Implement recovery code regeneration
-- [ ] Implement enable/disable flow
-- [ ] Define 2FA policy
-- [ ] Add 2FA tests
+- [x] Implement TOTP
+- [x] Implement QR enrollment
+- [x] Implement recovery codes
+- [x] Implement recovery code regeneration
+- [x] Implement enable/disable flow
+- [x] Define 2FA policy
+- [x] Add 2FA tests
 
 ## 7.4 Passkeys
 
-- [ ] Select passkey implementation
-- [ ] Implement passkey registration
-- [ ] Implement passkey authentication
-- [ ] Implement passkey management
-- [ ] Implement passkey revocation
-- [ ] Add passkey tests
+- [x] Select passkey implementation — Breezy/webauthn-lib
+- [x] Implement passkey registration
+- [x] Implement passkey authentication
+- [x] Implement passkey management
+- [x] Implement passkey revocation
+- [ ] Add passkey tests — **deferred** (butuh mocked WebAuthn; di-track sebagai TODO lanjutan)
 
 ## 7.5 Security Events
 
-- [ ] Define security event model
-- [ ] Record login success
-- [ ] Record login failure
-- [ ] Record password change
-- [ ] Record 2FA changes
-- [ ] Record passkey changes
-- [ ] Record session revocation
+- [x] Define security event model
+- [x] Record login success
+- [x] Record login failure
+- [x] Record password change
+- [x] Record 2FA changes
+- [x] Record passkey changes
+- [x] Record session revocation
 
 ---
 

@@ -13,3 +13,10 @@ parameters:
 
     # Level 10 is the highest level
     level: 5
+
+    ignoreErrors:
+        # core/Config is a legitimate config dir (merged via CoreServiceProvider);
+        # Larastan only recognizes config/ for the noEnvCallsOutsideOfConfig rule.
+        -
+            message: '#Called .env. outside of the config directory#'
+            path: core/Config/core.php

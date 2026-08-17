@@ -2,11 +2,18 @@
 
 namespace App\Providers;
 
+use App\Listeners\Security\RecordLoginFailed;
+use App\Listeners\Security\RecordLoginSucceeded;
+use App\Listeners\Security\RecordPasskeyUsed;
+use App\Listeners\Security\RecordSecurityEvent;
 use App\Policies\ActivityPolicy;
 use App\Policies\OrganizationalAccessPolicy;
 use BezhanSalleh\FilamentShield\Facades\FilamentShield;
+use Core\Security\Events\SecurityEventOccurred;
 use Filament\Tables\Columns\Column;
 use Filament\Tables\Table;
+use Illuminate\Auth\Events\Failed;
+use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Database\Eloquent\Model;
@@ -15,6 +22,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
+use Jeffgreco13\FilamentBreezy\Events\PasskeyUsedToAuthenticate;
 use Spatie\Activitylog\Models\Activity;
 
 class AppServiceProvider extends ServiceProvider
@@ -96,23 +104,23 @@ class AppServiceProvider extends ServiceProvider
     private function configureSecurityEvents(): void
     {
         $this->app['events']->listen(
-            Core\Security\Events\SecurityEventOccurred::class,
-            App\Listeners\Security\RecordSecurityEvent::class,
+            SecurityEventOccurred::class,
+            RecordSecurityEvent::class,
         );
 
         $this->app['events']->listen(
-            Illuminate\Auth\Events\Login::class,
-            App\Listeners\Security\RecordLoginSucceeded::class,
+            Login::class,
+            RecordLoginSucceeded::class,
         );
 
         $this->app['events']->listen(
-            Illuminate\Auth\Events\Failed::class,
-            App\Listeners\Security\RecordLoginFailed::class,
+            Failed::class,
+            RecordLoginFailed::class,
         );
 
         $this->app['events']->listen(
-            Jeffgreco13\FilamentBreezy\Events\PasskeyUsedToAuthenticate::class,
-            App\Listeners\Security\RecordPasskeyUsed::class,
+            PasskeyUsedToAuthenticate::class,
+            RecordPasskeyUsed::class,
         );
     }
 }
