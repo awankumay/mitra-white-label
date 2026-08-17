@@ -6,8 +6,10 @@ use App\Listeners\Security\RecordLoginFailed;
 use App\Listeners\Security\RecordLoginSucceeded;
 use App\Listeners\Security\RecordPasskeyUsed;
 use App\Listeners\Security\RecordSecurityEvent;
+use App\Models\User;
 use App\Policies\ActivityPolicy;
 use App\Policies\OrganizationalAccessPolicy;
+use App\Services\RoleService;
 use BezhanSalleh\FilamentShield\Facades\FilamentShield;
 use Core\Security\Events\SecurityEventOccurred;
 use Filament\Tables\Columns\Column;
@@ -52,6 +54,8 @@ class AppServiceProvider extends ServiceProvider
         $this->configureAuthRedirect();
 
         $this->configureSecurityEvents();
+
+        $this->configureAuthorizationGate();
     }
 
     private function configureAuthRedirect(): void
@@ -122,5 +126,22 @@ class AppServiceProvider extends ServiceProvider
             PasskeyUsedToAuthenticate::class,
             RecordPasskeyUsed::class,
         );
+    }
+
+    private function configureAuthorizationGate(): void
+    {
+        Gate::before(function ($user, $ability) {
+            if (! $user instanceof User) {
+                return null;
+            }
+
+            if ($user->hasRole('super_admin')) {
+                return null;   // Shield intercept 'before' already handles super_admin; don't shadow it
+            }
+
+            $allowed = app(RoleService::class)->userHasPermission($user, $ability);
+
+            return $allowed ? true : null;   // null → fall through to normal policy/permission checks
+        });
     }
 }
