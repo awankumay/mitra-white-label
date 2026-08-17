@@ -50,12 +50,16 @@ class UserPolicy
             && $this->sharesScope($authUser, $user);
     }
 
+    /**
+     * @param  AuthUser  $authUser  runtime instance is App\Models\User
+     */
     private function sharesScope(AuthUser $authUser, User $target): bool
     {
         if (Scope::isSuperAdmin($authUser)) {
             return true;
         }
 
+        /** @var User $authUser */
         $authUnitIds = $authUser->units()->pluck('organizational_units.id');
         $targetUnitIds = $target->units()->pluck('organizational_units.id');
 
@@ -63,6 +67,7 @@ class UserPolicy
             return true;
         }
 
+        /** @var User $authUser */
         $authOrgIds = $authUser->organizations()->pluck('organizations.id');
         $targetOrgIds = $target->organizations()->pluck('organizations.id');
 

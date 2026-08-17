@@ -18,11 +18,13 @@ final class RoleService
     {
         $permissions = new Collection;
 
+        /** @var Role $role */
         foreach ($user->roles as $role) {
             foreach ($role->permissions as $permission) {
                 $permissions->push($permission);
             }
 
+            /** @var Role $ancestor */
             foreach ($role->ancestors() as $ancestor) {
                 foreach ($ancestor->permissions as $permission) {
                     $permissions->push($permission);
@@ -54,6 +56,7 @@ final class RoleService
 
         while ($queue->isNotEmpty()) {
             $current = $queue->shift();
+            /** @var Role $current */
             $descendants->push($current);
             $queue = $queue->merge($current->children);
         }
