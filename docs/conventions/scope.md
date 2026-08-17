@@ -83,3 +83,12 @@ public static function getEloquentQuery(): Builder
 | User biasa | Scope sesuai unit/org di-assign |
 | Tanpa unit/org | Hanya data global |
 | CLI/queue tanpa session | Scope no-op; caller set context eksplisit |
+
+## Role Hierarchy
+
+- Kolom `parent_role_id` (self-ref) pada tabel `roles` — arah child→parent.
+- Inheritance top-down: permission role + semua ancestor (via `App\Services\RoleService`).
+- Default: `administrator` (tanpa parent) → `manager` → `supervisor` → `staff` → `viewer`.
+- `super_admin` bukan bagian hierarchy — bypass gate & scope (invariant).
+- `panel_user` bukan bagian hierarchy (role teknis akses panel).
+- Cegah cycle via `RoleService::wouldCreateCycle`.

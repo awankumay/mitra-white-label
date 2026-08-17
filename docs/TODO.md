@@ -260,31 +260,34 @@
 
 # 8. Authorization
 
+> Implemented (M6). Spec: `docs/superpowers/specs/2026-08-16-authorization-design.md`;
+> plan: `docs/superpowers/plans/2026-08-16-authorization.md`.
+
 ## 8.1 RBAC
 
-- [ ] Configure Filament Shield
-- [ ] Configure Spatie Permission
-- [ ] Define default roles
-- [ ] Define permission naming convention
-- [ ] Configure role management
-- [ ] Configure permission management
+- [x] Configure Filament Shield — plugin + super_admin gate intercept (`config/filament-shield.php`), plan §Task 4
+- [x] Configure Spatie Permission — role model `App\Models\Role`, tables (`config/permission.php`), plan §Task 1
+- [x] Define default roles — 7 roles di `DatabaseSeeder` (hierarchy default `administrator → manager → supervisor → staff → viewer`), plan §Task 8
+- [x] Define permission naming convention — `action:subject` (`docs/conventions/naming.md` §Permission, `docs/conventions/coding.md`)
+- [x] Configure role management — Shield `RoleResource` (form + permission tabs), spec §2
+- [x] Configure permission management — Shield permission tabs (resources/pages/widgets/custom) di RoleResource, spec §2
 
 ## 8.2 Policies
 
-- [ ] Define policy conventions
-- [ ] Implement OrganizationPolicy
-- [ ] Implement OrganizationalUnitPolicy
-- [ ] Implement UserPolicy
-- [ ] Implement scoped authorization
+- [x] Define policy conventions — permission dulu, lalu scope (`docs/conventions/scope.md` §Policy, spec §3.4)
+- [x] Implement OrganizationPolicy — `core/Organization/Policies/OrganizationPolicy.php` (+ `Scope::canAccessOrganization`), plan §Task 5
+- [x] Implement OrganizationalUnitPolicy — `core/Organization/Policies/OrganizationalUnitPolicy.php` (+ `Scope::can`), plan §Task 5
+- [x] Implement UserPolicy — `app/Policies/UserPolicy.php` (scope update/delete via shared unit/org), plan §Task 6
+- [x] Implement scoped authorization — `Core\Support\Scope` + `ScopePolicy` (permission + scope per-record), plan §Task 2, 5, 6
 
 ## 8.3 Organizational Authorization
 
-- [ ] Implement permission + organizational scope
-- [ ] Validate current context against permissions
-- [ ] Prevent cross-unit unauthorized access
-- [ ] Test manager-level access
-- [ ] Test unit-level access
-- [ ] Test administrator bypass rules
+- [x] Implement permission + organizational scope — policy pattern `can('action:subject') && Scope::...`, plan §Task 2, 5
+- [x] Validate current context against permissions — policy per-record validation (permission + scope), plan §Task 5, 6
+- [x] Prevent cross-unit unauthorized access — `OrganizationalUnitScopeTest`, `UserPolicyScopeTest` (cross-unit denied), plan §Task 5, 6
+- [x] Test manager-level access — `tests/Feature/Authorization/OrganizationScopeTest.php`, plan §Task 5
+- [x] Test unit-level access — `tests/Feature/Authorization/OrganizationalUnitScopeTest.php`, plan §Task 5
+- [x] Test administrator bypass rules — super_admin bypass (`InheritanceGateTest`, scope tests, `ResourceScopeTest`), plan §Task 4, 5, 6, 7
 
 ---
 
