@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Core\Organization\Policies;
 
 use Core\Organization\Models\OrganizationalUnit;
+use Core\Support\Scope;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Foundation\Auth\User as AuthUser;
 
@@ -19,7 +20,8 @@ class OrganizationalUnitPolicy
 
     public function view(AuthUser $authUser, OrganizationalUnit $organizationalUnit): bool
     {
-        return $authUser->can('view:organizational_unit');
+        return $authUser->can('view:organizational_unit')
+            && Scope::can($authUser, $organizationalUnit->id);
     }
 
     public function create(AuthUser $authUser): bool
@@ -29,22 +31,26 @@ class OrganizationalUnitPolicy
 
     public function update(AuthUser $authUser, OrganizationalUnit $organizationalUnit): bool
     {
-        return $authUser->can('update:organizational_unit');
+        return $authUser->can('update:organizational_unit')
+            && Scope::can($authUser, $organizationalUnit->id);
     }
 
     public function delete(AuthUser $authUser, OrganizationalUnit $organizationalUnit): bool
     {
-        return $authUser->can('delete:organizational_unit');
+        return $authUser->can('delete:organizational_unit')
+            && Scope::can($authUser, $organizationalUnit->id);
     }
 
     public function restore(AuthUser $authUser, OrganizationalUnit $organizationalUnit): bool
     {
-        return $authUser->can('restore:organizational_unit');
+        return $authUser->can('restore:organizational_unit')
+            && Scope::can($authUser, $organizationalUnit->id);
     }
 
     public function forceDelete(AuthUser $authUser, OrganizationalUnit $organizationalUnit): bool
     {
-        return $authUser->can('force_delete:organizational_unit');
+        return $authUser->can('force_delete:organizational_unit')
+            && Scope::can($authUser, $organizationalUnit->id);
     }
 
     public function forceDeleteAny(AuthUser $authUser): bool
@@ -59,7 +65,8 @@ class OrganizationalUnitPolicy
 
     public function replicate(AuthUser $authUser, OrganizationalUnit $organizationalUnit): bool
     {
-        return $authUser->can('replicate:organizational_unit');
+        return $authUser->can('replicate:organizational_unit')
+            && Scope::can($authUser, $organizationalUnit->id);
     }
 
     public function reorder(AuthUser $authUser): bool

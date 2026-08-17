@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Core\Organization\Policies;
 
 use Core\Organization\Models\Organization;
+use Core\Support\Scope;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Foundation\Auth\User as AuthUser;
 
@@ -19,7 +20,8 @@ class OrganizationPolicy
 
     public function view(AuthUser $authUser, Organization $organization): bool
     {
-        return $authUser->can('view:organization');
+        return $authUser->can('view:organization')
+            && Scope::canAccessOrganization($authUser, $organization->id);
     }
 
     public function create(AuthUser $authUser): bool
@@ -29,22 +31,26 @@ class OrganizationPolicy
 
     public function update(AuthUser $authUser, Organization $organization): bool
     {
-        return $authUser->can('update:organization');
+        return $authUser->can('update:organization')
+            && Scope::canAccessOrganization($authUser, $organization->id);
     }
 
     public function delete(AuthUser $authUser, Organization $organization): bool
     {
-        return $authUser->can('delete:organization');
+        return $authUser->can('delete:organization')
+            && Scope::canAccessOrganization($authUser, $organization->id);
     }
 
     public function restore(AuthUser $authUser, Organization $organization): bool
     {
-        return $authUser->can('restore:organization');
+        return $authUser->can('restore:organization')
+            && Scope::canAccessOrganization($authUser, $organization->id);
     }
 
     public function forceDelete(AuthUser $authUser, Organization $organization): bool
     {
-        return $authUser->can('force_delete:organization');
+        return $authUser->can('force_delete:organization')
+            && Scope::canAccessOrganization($authUser, $organization->id);
     }
 
     public function forceDeleteAny(AuthUser $authUser): bool
@@ -59,7 +65,8 @@ class OrganizationPolicy
 
     public function replicate(AuthUser $authUser, Organization $organization): bool
     {
-        return $authUser->can('replicate:organization');
+        return $authUser->can('replicate:organization')
+            && Scope::canAccessOrganization($authUser, $organization->id);
     }
 
     public function reorder(AuthUser $authUser): bool
