@@ -122,6 +122,7 @@ class AdminPanelProvider extends PanelProvider
             ->sidebarWidth('14rem')
             ->authMiddleware([
                 Authenticate::class,
+                \App\Http\Middleware\ForceSuperAdminTwoFactor::class,
             ])
             ->maxContentWidth(Width::Full)
             ->viteTheme('resources/css/filament/admin/theme.css');
