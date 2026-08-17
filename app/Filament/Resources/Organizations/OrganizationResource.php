@@ -11,10 +11,12 @@ use App\Filament\Resources\Organizations\Schemas\OrganizationInfolist;
 use App\Filament\Resources\Organizations\Tables\OrganizationsTable;
 use BackedEnum;
 use Core\Organization\Models\Organization;
+use Core\Support\Scope;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use UnitEnum;
 
 class OrganizationResource extends Resource
@@ -50,5 +52,14 @@ class OrganizationResource extends Resource
             'edit' => EditOrganization::route('/{record}/edit'),
             'view' => ViewOrganization::route('/{record}'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->when(
+                ! Scope::isSuperAdmin(auth()->user()),
+                fn (Builder $q) => $q->whereIn('id', auth()->user()->organizations()->pluck('organizations.id'))
+            );
     }
 }

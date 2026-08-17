@@ -9,10 +9,12 @@ use App\Filament\Resources\Users\Schemas\UserForm;
 use App\Filament\Resources\Users\Tables\UsersTable;
 use App\Models\User;
 use BackedEnum;
+use Core\Support\Scope;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use UnitEnum;
 
 class UserResource extends Resource
@@ -49,5 +51,22 @@ class UserResource extends Resource
             'create' => CreateUser::route('/create'),
             'edit' => EditUser::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->when(
+                ! Scope::isSuperAdmin(auth()->user()),
+                fn (Builder $q) => $q->where(function (Builder $q) {
+                    $authUser = auth()->user();
+
+                    $unitIds = $authUser->units()->pluck('organizational_units.id');
+                    $orgIds = $authUser->organizations()->pluck('organizations.id');
+
+                    $q->whereHas('units', fn (Builder $uq) => $uq->whereIn('organizational_units.id', $unitIds))
+                        ->orWhereHas('organizations', fn (Builder $oq) => $oq->whereIn('organizations.id', $orgIds));
+                })
+            );
     }
 }
