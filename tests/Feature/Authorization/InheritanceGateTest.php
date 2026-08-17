@@ -33,4 +33,14 @@ class InheritanceGateTest extends TestCase
 
         $this->assertTrue(Gate::forUser($user)->denies('delete:user'));
     }
+
+    public function test_super_admin_with_bare_role_gate_allows_everything(): void
+    {
+        $role = Role::firstOrCreate(['name' => 'super_admin']);
+        $user = User::factory()->create();
+        $user->assignRole($role);
+
+        $this->assertTrue(Gate::forUser($user)->allows('view:user'));
+        $this->assertTrue(Gate::forUser($user)->allows('anything:at_all'));
+    }
 }
