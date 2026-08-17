@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
         $supervisor->update(['parent_role_id' => $manager->id]);
         $staff->update(['parent_role_id' => $supervisor->id]);
         $viewer->update(['parent_role_id' => $staff->id]);
+        $manager->update(['parent_role_id' => $administrator->id]);
         $administrator->update(['parent_role_id' => null]);
 
         User::factory()->create([
