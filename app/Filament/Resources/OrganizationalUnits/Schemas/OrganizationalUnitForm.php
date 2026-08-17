@@ -2,7 +2,10 @@
 
 namespace App\Filament\Resources\OrganizationalUnits\Schemas;
 
+use App\Models\User;
 use Core\Organization\Enums\OrganizationalUnitType;
+use Core\Organization\Models\Organization;
+use Core\Support\Scope;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Utilities\Get;
@@ -16,7 +19,20 @@ class OrganizationalUnitForm
         return $schema
             ->components([
                 Select::make('organization_id')
-                    ->relationship('organization', 'name')
+                    ->options(function (): array {
+                        $user = auth()->user();
+
+                        if (! $user) {
+                            return [];
+                        }
+
+                        if (Scope::isSuperAdmin($user)) {
+                            return Organization::pluck('name', 'id')->all();
+                        }
+
+                        /** @var User $user */
+                        return $user->organizations()->pluck('name', 'id')->all();
+                    })
                     ->searchable()
                     ->preload()
                     ->required()
