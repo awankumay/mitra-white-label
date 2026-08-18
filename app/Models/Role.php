@@ -8,11 +8,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Permission\Models\Role as SpatieRole;
 
+/**
+ * @property int|null $parent_role_id
+ */
 class Role extends SpatieRole
 {
-    /** @var int|null */
-    public $parent_role_id;
-
     protected static function booted(): void
     {
         static::saving(function (Role $role) {
