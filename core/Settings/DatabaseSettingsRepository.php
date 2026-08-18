@@ -46,6 +46,10 @@ final class DatabaseSettingsRepository implements SettingsRepository
 
     public function getForScope(string $key, SettingScope $scope, ?string $scopeId = null): mixed
     {
+        if ($this->requiresScopeId($scope, $scopeId)) {
+            throw SettingsException::invalidScope($key, $scope);
+        }
+
         $definition = $this->registry->definition($key);
         $value = $this->readCached($key, $scope, $scopeId);
 
@@ -96,11 +100,20 @@ final class DatabaseSettingsRepository implements SettingsRepository
             throw SettingsException::invalidScope($key, $scope);
         }
 
-        $requiresId = $scope !== SettingScope::System;
-
-        if ($requiresId !== ($scopeId !== null)) {
+        if ($this->requiresScopeId($scope, $scopeId)) {
             throw SettingsException::invalidScope($key, $scope);
         }
+    }
+
+    /**
+     * Whether the id-presence for the given scope mismatches what the scope requires
+     * (System must have no id; every other scope must have one).
+     */
+    private function requiresScopeId(SettingScope $scope, ?string $scopeId): bool
+    {
+        $requiresId = $scope !== SettingScope::System;
+
+        return $requiresId !== ($scopeId !== null);
     }
 
     private function currentScopeId(SettingScope $scope): ?string

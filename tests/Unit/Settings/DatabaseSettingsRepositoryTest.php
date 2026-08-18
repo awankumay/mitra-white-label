@@ -94,6 +94,20 @@ class DatabaseSettingsRepositoryTest extends TestCase
         $this->assertNull(app(SettingsRepository::class)->getForScope('app.name', SettingScope::System));
     }
 
+    public function test_get_for_scope_throws_when_scope_id_missing_for_non_system_scope(): void
+    {
+        $this->expectException(SettingsException::class);
+
+        app(SettingsRepository::class)->getForScope('app.timezone', SettingScope::Unit);
+    }
+
+    public function test_get_for_scope_throws_when_scope_id_given_for_system_scope(): void
+    {
+        $this->expectException(SettingsException::class);
+
+        app(SettingsRepository::class)->getForScope('app.name', SettingScope::System, 'not-null');
+    }
+
     public function test_cascade_prefers_unit_over_system(): void
     {
         $org = Organization::factory()->create();

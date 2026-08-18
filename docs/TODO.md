@@ -304,7 +304,7 @@
 
 ## 9.2 System Settings
 
-- [x] Application settings — `app/Filament/Pages/Settings/ApplicationSettings.php`, keys `app.name`/`app.locale`/`app.timezone`
+- [x] Application settings — storage + UI (`app/Filament/Pages/Settings/ApplicationSettings.php`), keys `app.name`/`app.locale`/`app.timezone`; runtime application of the stored values (app name display, locale/timezone activation) is deferred to a follow-up task, not part of this plan
 - [ ] Security settings
 - [ ] Localization settings
 - [ ] Mail settings

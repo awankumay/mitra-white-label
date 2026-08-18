@@ -20,7 +20,7 @@ return [
         'definitions' => [
             'app.name' => [
                 'type' => 'string',
-                'default' => null,
+                'default' => env('APP_NAME', 'Mitra White Label'),
                 'scopes' => [SettingScope::System],
                 'group' => 'application',
             ],

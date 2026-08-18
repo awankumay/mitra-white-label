@@ -40,7 +40,9 @@ class ApplicationSettingsPageTest extends TestCase
 
     public function test_page_forbidden_without_view_permission(): void
     {
-        $user = User::factory()->create();
+        // panel_user grants panel reachability without granting view:settings, so a 403 here
+        // can only come from ApplicationSettings::canAccess() itself, not panel access.
+        $user = $this->userWithPermissions([]);
 
         $this->actingAs($user)
             ->get(ApplicationSettings::getUrl())

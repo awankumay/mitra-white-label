@@ -43,7 +43,7 @@ class ApplicationSettings extends Page
         foreach ($registry->keysInGroup('application') as $key) {
             $field = str_replace('.', '_', $key);
             $this->data[$field] = $repository->getForScope($key, SettingScope::System)
-                ?? $repository->get($key);
+                ?? $registry->definition($key)['default'];
         }
 
         $this->form->fill($this->data);
