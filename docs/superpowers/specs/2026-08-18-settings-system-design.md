@@ -152,6 +152,9 @@ interface SettingsRepository
 
 - `scopeId` = id target tier (`organization_id` untuk Organization, `organizational_unit_id`
   untuk Unit, `user_id` untuk User). Untuk `SettingScope::System`, `scopeId` selalu `null`.
+- `getForScope()` **tidak** fallback ke registry default saat tidak ada baris tersimpan —
+  return `null` apa adanya (raw), supaya form pembeda "belum di-override" vs "di-set
+  eksplisit" tidak salah menampilkan nilai default seolah-olah itu nilai tersimpan.
 - Implementasi: `Core\Settings\DatabaseSettingsRepository` (final class, di-bind singleton
   lewat `SettingsServiceProvider`).
 
@@ -165,8 +168,11 @@ interface SettingsRepository
 4. Tiap tier: cek cache `settings.raw.{key}.{tier}.{scopeId}` → miss → query
    `settings` table (`WHERE key = ? AND <kolom scope sesuai tier> = ?`) → simpan ke cache
    (TTL `core.settings.cache_ttl`) → jika ada baris, cast sesuai `type` dan **return**.
-5. Tidak ketemu di tier manapun → return `$default` param, atau `definition['default']`
-   bila `$default` tidak dikirim.
+5. Tidak ketemu di tier manapun → return `$default ?? definition['default']`. Karena
+   signature `get(string $key, mixed $default = null)` tidak bisa membedakan "`null`
+   dikirim eksplisit" dari "tidak dikirim", keduanya sengaja diperlakukan sama: kirim
+   `$default` hanya saat memang ingin override registry default, biarkan default
+   parameter (`null`) untuk selalu pakai default registry.
 
 ### 3.7 Caching
 
