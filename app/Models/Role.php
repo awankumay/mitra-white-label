@@ -10,6 +10,9 @@ use Spatie\Permission\Models\Role as SpatieRole;
 
 class Role extends SpatieRole
 {
+    /** @var int|null */
+    public $parent_role_id;
+
     protected static function booted(): void
     {
         static::saving(function (Role $role) {

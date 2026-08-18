@@ -10,7 +10,7 @@ class CoreServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/Config/core.php', 'core');
 
-        foreach ((array) $this->app['config']->get('core.providers', []) as $provider) {
+        foreach ((array) config('core.providers', []) as $provider) {
             $this->app->register($provider);
         }
     }

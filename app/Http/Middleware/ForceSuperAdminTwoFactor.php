@@ -25,7 +25,7 @@ class ForceSuperAdminTwoFactor
 
             $myProfileRouteName = 'filament.'.Filament::getCurrentOrDefaultPanel()->getId().'.pages.'.$breezy->slug();
 
-            if (! $request->routeIs($myProfileRouteName)) {
+            if (! $request->routeIs($myProfileRouteName) && ! str($request->route()?->getName())->contains('logout')) {
                 return redirect()->route($myProfileRouteName);
             }
         }
