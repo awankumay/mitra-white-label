@@ -4,6 +4,7 @@ namespace Tests\Feature\Context;
 
 use App\Models\User;
 use Core\Organization\Models\OrganizationalUnit;
+use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -17,7 +18,7 @@ class SwitchUnitTest extends TestCase
 
         // CSRF ditangani oleh middleware web group; nonaktifkan untuk test
         // (pola umum Laravel testing), auth tetap aktif.
-        $this->withoutMiddleware(\Illuminate\Foundation\Http\Middleware\PreventRequestForgery::class);
+        $this->withoutMiddleware(PreventRequestForgery::class);
     }
 
     public function test_switch_unit_redirects_back_with_success(): void

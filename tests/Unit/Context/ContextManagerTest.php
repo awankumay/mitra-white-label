@@ -3,8 +3,8 @@
 namespace Tests\Unit\Context;
 
 use App\Models\User;
-use Core\Context\OrganizationContextManager;
 use Core\Context\OrganizationalUnitContextManager;
+use Core\Context\OrganizationContextManager;
 use Core\Organization\Models\Organization;
 use Core\Organization\Models\OrganizationalUnit;
 use Illuminate\Foundation\Testing\RefreshDatabase;

@@ -3,6 +3,11 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Resources\Users\UserResource;
+use App\Http\Middleware\ForceSuperAdminTwoFactor;
+use App\Livewire\Security\BrowserSessions;
+use App\Livewire\Security\Passkeys;
+use App\Livewire\Security\TwoFactorAuthentication;
+use App\Livewire\Security\UpdatePassword;
 use App\Models\User;
 use Awcodes\QuickCreate\QuickCreatePlugin;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
@@ -27,6 +32,7 @@ use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Illuminate\View\View;
 use Jacobtims\FilamentLogger\FilamentLoggerPlugin;
 use Jeffgreco13\FilamentBreezy\BreezyCore;
 use SpyApp\ThemeEdinburgh\ThemeEdinburghPlugin;
@@ -94,10 +100,10 @@ class AdminPanelProvider extends PanelProvider
                 BreezyCore::make()
                     ->myProfile()
                     ->myProfileComponents([
-                        'update_password' => \App\Livewire\Security\UpdatePassword::class,
-                        'two_factor_authentication' => \App\Livewire\Security\TwoFactorAuthentication::class,
-                        'passkeys' => \App\Livewire\Security\Passkeys::class,
-                        'browser_sessions' => \App\Livewire\Security\BrowserSessions::class,
+                        'update_password' => UpdatePassword::class,
+                        'two_factor_authentication' => TwoFactorAuthentication::class,
+                        'passkeys' => Passkeys::class,
+                        'browser_sessions' => BrowserSessions::class,
                     ])
                     ->enableTwoFactorAuthentication(
                         force: config('core.auth.two_factor.force'),
@@ -123,12 +129,12 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->renderHook(
                 PanelsRenderHook::USER_MENU_BEFORE,
-                fn (): \Illuminate\View\View => view('panel.unit-switcher'),
+                fn (): View => view('panel.unit-switcher'),
             )
             ->sidebarWidth('14rem')
             ->authMiddleware([
                 Authenticate::class,
-                \App\Http\Middleware\ForceSuperAdminTwoFactor::class,
+                ForceSuperAdminTwoFactor::class,
             ])
             ->maxContentWidth(Width::Full)
             ->viteTheme('resources/css/filament/admin/theme.css');

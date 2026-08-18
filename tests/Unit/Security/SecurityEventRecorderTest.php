@@ -16,7 +16,7 @@ class SecurityEventRecorderTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $recorder = new SecurityEventRecorder();
+        $recorder = new SecurityEventRecorder;
 
         $recorder->record(SecurityEventType::PasswordChanged, $user->getKey(), ['ip_address' => '127.0.0.1']);
 
@@ -29,7 +29,7 @@ class SecurityEventRecorderTest extends TestCase
 
     public function test_record_allows_null_user_for_anonymous_events(): void
     {
-        $recorder = new SecurityEventRecorder();
+        $recorder = new SecurityEventRecorder;
 
         $recorder->record(SecurityEventType::LoginFailed, null, []);
 

@@ -3,7 +3,9 @@
 namespace Tests\Feature\Auth;
 
 use App\Models\User;
+use Filament\Auth\Pages\Login;
 use Filament\Facades\Filament;
+use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Spatie\Permission\Models\Role;
@@ -44,7 +46,7 @@ class LoginTest extends TestCase
             'email_verified_at' => now(),
         ]);
 
-        Livewire::test(\Filament\Auth\Pages\Login::class)
+        Livewire::test(Login::class)
             ->set('data.email', 'user@example.com')
             ->set('data.password', 'password')
             ->call('authenticate')
@@ -61,7 +63,7 @@ class LoginTest extends TestCase
             'email_verified_at' => now(),
         ]);
 
-        Livewire::test(\Filament\Auth\Pages\Login::class)
+        Livewire::test(Login::class)
             ->set('data.email', 'user@example.com')
             ->set('data.password', 'wrong-password')
             ->call('authenticate')
@@ -77,7 +79,7 @@ class LoginTest extends TestCase
         ]);
 
         $this->actingAs($user)
-            ->withoutMiddleware(\Illuminate\Foundation\Http\Middleware\PreventRequestForgery::class)
+            ->withoutMiddleware(PreventRequestForgery::class)
             ->post(route('filament.admin.auth.logout'))
             ->assertRedirect(route('filament.admin.auth.login'));
 

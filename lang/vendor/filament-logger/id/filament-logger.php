@@ -25,4 +25,7 @@ return [
     'resource.label.new' => 'Baru',
     'resource.label.old_value' => 'Nilai Lama',
     'resource.label.new_value' => 'Nilai Baru',
+    'resource.label.properties_hint' => 'Dapat berupa kunci atau nilai',
+    'resource.label.old_attributes' => 'Atribut atau Nilai Lama: ',
+    'resource.label.new_attributes' => 'Atribut atau Nilai Baru: ',
 ];

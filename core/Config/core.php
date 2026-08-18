@@ -1,8 +1,10 @@
 <?php
 
+use Core\Context\ContextServiceProvider;
+
 return [
     'providers' => [
-        Core\Context\ContextServiceProvider::class,
+        ContextServiceProvider::class,
     ],
     'organization' => [
         'max_depth' => 10,

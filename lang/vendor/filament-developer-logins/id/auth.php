@@ -1,11 +1,11 @@
 <?php
 
 return [
-    'login-as' => 'Login as',
-    'switch-to' => 'Switch to',
+    'login-as' => 'Masuk sebagai',
+    'switch-to' => 'Beralih ke',
 
     'messages' => [
-        'failed' => 'Login failed, check if the user is allowed to access the panel.',
-        'failed_not_found' => 'Login failed, the user cannot be found.',
+        'failed' => 'Login gagal, periksa apakah pengguna diizinkan mengakses panel.',
+        'failed_not_found' => 'Login gagal, pengguna tidak dapat ditemukan.',
     ],
 ];

@@ -11,8 +11,7 @@ final class SwitchUnitAction
 {
     public function __construct(
         private readonly OrganizationalUnitContext $context,
-    ) {
-    }
+    ) {}
 
     public function handle(string $userId, string $unitId): void
     {

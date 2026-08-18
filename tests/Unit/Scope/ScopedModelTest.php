@@ -16,8 +16,7 @@ class ScopedModelTest extends TestCase
 
     public function test_an_implementing_class_is_detectable(): void
     {
-        $model = new class implements ScopedModel {
-        };
+        $model = new class implements ScopedModel {};
 
         $this->assertInstanceOf(ScopedModel::class, $model);
     }

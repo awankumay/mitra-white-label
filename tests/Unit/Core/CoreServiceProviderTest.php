@@ -3,10 +3,10 @@
 namespace Tests\Unit\Core;
 
 use Core\Context\ContextServiceProvider;
-use Core\Context\OrganizationContextManager;
 use Core\Context\OrganizationalUnitContextManager;
-use Core\Contracts\OrganizationContext;
+use Core\Context\OrganizationContextManager;
 use Core\Contracts\OrganizationalUnitContext;
+use Core\Contracts\OrganizationContext;
 use Core\CoreServiceProvider;
 use Illuminate\Support\ServiceProvider;
 use Tests\TestCase;

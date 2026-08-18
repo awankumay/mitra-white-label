@@ -2,8 +2,8 @@
 
 namespace Core\Context;
 
-use Core\Contracts\OrganizationContext;
 use Core\Contracts\OrganizationalUnitContext;
+use Core\Contracts\OrganizationContext;
 use Illuminate\Support\ServiceProvider;
 
 class ContextServiceProvider extends ServiceProvider

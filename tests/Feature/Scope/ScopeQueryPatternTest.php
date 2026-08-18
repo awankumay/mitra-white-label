@@ -3,8 +3,8 @@
 namespace Tests\Feature\Scope;
 
 use App\Models\User;
-use Core\Contracts\OrganizationContext;
 use Core\Contracts\OrganizationalUnitContext;
+use Core\Contracts\OrganizationContext;
 use Core\Organization\Models\Organization;
 use Core\Organization\Models\OrganizationalUnit;
 use Core\Support\Scope;

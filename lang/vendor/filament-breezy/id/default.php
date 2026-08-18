@@ -19,6 +19,12 @@ return [
         'recovery_code_link' => 'Gunakan kode pemulihan',
         'back_to_login_link' => 'Kembali ke login',
     ],
+    'passkeys' => [
+        'authenticate_using_passkey' => [
+            'label' => 'Autentikasi menggunakan Passkey',
+        ],
+        'invalid' => 'Tidak dapat masuk menggunakan passkey yang diberikan.',
+    ],
     'profile' => [
         'account' => 'Akun',
         'profile' => 'Profil',
@@ -112,6 +118,23 @@ return [
             'incorrect_password' => 'Kata sandi yang Anda masukkan salah. Silakan coba lagi.',
             'logout_success' => 'Berhasil keluar dari semua sesi browser lainnya.',
         ],
+        'passkeys' => [
+            'heading' => 'Passkey',
+            'description' => 'Kelola passkey untuk akses tanpa kata sandi yang aman ke akun Anda di berbagai perangkat.',
+            'create' => [
+                'submit' => [
+                    'label' => 'Buat',
+                    'submit_label' => 'Buat & autentikasi',
+                ],
+                'error_message' => 'Terjadi kesalahan saat membuat passkey.',
+                'success_message' => 'Passkey berhasil dibuat.',
+            ],
+            'update' => [
+                'submit' => [
+                    'label' => 'Perbarui',
+                ],
+            ],
+        ],
     ],
     'clipboard' => [
         'link' => 'Salin ke clipboard',
@@ -133,6 +156,8 @@ return [
         '2fa_recovery_code' => 'Kode pemulihan',
         'created' => 'Dibuat',
         'expires' => 'Kedaluwarsa',
+        'passkey_name' => 'Nama passkey',
+        'last_used_at' => 'Terakhir digunakan',
     ],
     'permissions' => [
         'create' => 'Buat',
@@ -169,7 +194,7 @@ return [
         'title' => 'Verifikasi Email Anda',
         'heading' => 'Verifikasi Email Diperlukan',
         'submit' => [
-            'label' => 'Log Out',
+            'label' => 'Keluar',
         ],
         'notification_success' => 'Periksa email Anda untuk instruksi lebih lanjut!',
         'notification_resend' => 'Email verifikasi telah dikirim.',

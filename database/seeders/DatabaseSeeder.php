@@ -35,6 +35,8 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Admin',
             'email' => 'admin@example.com',
+            'password' => bcrypt('password'),
+            'email_verified_at' => now(),
         ])->assignRole('super_admin');
 
         $this->call(OrganizationSeeder::class);

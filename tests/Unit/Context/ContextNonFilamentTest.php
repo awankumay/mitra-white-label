@@ -3,9 +3,8 @@
 namespace Tests\Unit\Context;
 
 use App\Models\User;
-use Core\Contracts\OrganizationContext;
 use Core\Contracts\OrganizationalUnitContext;
-use Core\Organization\Models\Organization;
+use Core\Contracts\OrganizationContext;
 use Core\Organization\Models\OrganizationalUnit;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;

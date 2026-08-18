@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Context;
 
-use Core\Contracts\OrganizationContext;
 use Core\Contracts\OrganizationalUnitContext;
+use Core\Contracts\OrganizationContext;
 use PHPUnit\Framework\TestCase;
 
 class ContextContractTest extends TestCase

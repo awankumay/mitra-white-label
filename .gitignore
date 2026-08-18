@@ -26,3 +26,4 @@ yarn-error.log
 .commandcode/taste/
 
 *bak**
+.playwright-cli/

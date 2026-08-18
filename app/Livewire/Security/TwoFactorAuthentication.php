@@ -4,11 +4,12 @@ namespace App\Livewire\Security;
 
 use Core\Security\Enums\SecurityEventType;
 use Core\Security\Events\SecurityEventOccurred;
+use Filament\Actions\Action;
 use Jeffgreco13\FilamentBreezy\Livewire\TwoFactorAuthentication as BreezyTwoFactorAuthentication;
 
 class TwoFactorAuthentication extends BreezyTwoFactorAuthentication
 {
-    public function enableAction(): \Filament\Actions\Action
+    public function enableAction(): Action
     {
         $action = parent::enableAction();
 
@@ -21,7 +22,7 @@ class TwoFactorAuthentication extends BreezyTwoFactorAuthentication
         });
     }
 
-    public function disableAction(): \Filament\Actions\Action
+    public function disableAction(): Action
     {
         $action = parent::disableAction();
 
