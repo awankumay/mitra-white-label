@@ -6,6 +6,7 @@
 /storage/*.key
 /storage/pail
 /vendor
+/vendor_bak*
 .env
 .env.backup
 .env.production
@@ -27,3 +28,6 @@ yarn-error.log
 
 *bak**
 .playwright-cli/
+
+package-lock.json
+composer.lock
