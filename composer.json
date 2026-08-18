@@ -87,9 +87,12 @@
       "dont-discover": []
     },
     "patches": {
-      "jacobtims/filament-logger": {
-        "Fix undefined array key on ActivitiesTable filter": "patches/filament-logger-undefined-array-key.patch"
-      }
+        "jacobtims/filament-logger": {
+            "Fix undefined array key on ActivitiesTable filter": "patches/filament-logger-undefined-array-key.patch"
+        },
+        "ashrafic/filament-white-label": {
+            "Fix navigation group not reading config": "patches/filament-white-label-navigation-group.patch"
+        }
     }
   },
   "config": {

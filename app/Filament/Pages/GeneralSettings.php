@@ -15,6 +15,8 @@ class GeneralSettings extends AbstractPageSettings
      */
     public ?array $data = [];
 
+    protected static ?int $navigationSort = 50;
+
     protected static ?string $title = 'Settings';
 
     protected function settingName(): string
@@ -24,7 +26,7 @@ class GeneralSettings extends AbstractPageSettings
 
     public static function getNavigationGroup(): ?string
     {
-        return 'Administration';
+        return trans('nav.administration');
     }
 
     /**

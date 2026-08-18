@@ -6,7 +6,7 @@ return [
 
     'activity_resource' => \Jacobtims\FilamentLogger\Resources\ActivityResource::class,
     'scoped_to_tenant' => true,
-    'navigation_sort' => null,
+    'navigation_sort' => 99,
 
     'resources' => [
         'enabled' => true,
@@ -18,7 +18,7 @@ return [
             // App\Filament\Resources\UserResource::class,
         ],
         'cluster' => null,
-        'navigation_group' => 'Administration',
+        'navigation_group' => 'nav.logger',
     ],
 
     'access' => [

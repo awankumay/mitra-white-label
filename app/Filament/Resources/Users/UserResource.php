@@ -15,7 +15,6 @@ use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use UnitEnum;
 
 class UserResource extends Resource
 {
@@ -25,7 +24,10 @@ class UserResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static string|UnitEnum|null $navigationGroup = 'Administration';
+    public static function getNavigationGroup(): string
+    {
+        return trans('nav.administration');
+    }
 
     public static function form(Schema $schema): Schema
     {

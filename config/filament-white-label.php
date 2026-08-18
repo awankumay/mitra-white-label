@@ -61,9 +61,9 @@ return [
     ],
 
     'ui' => [
-        'show_preview' => env('FILAMENT_WHITE_LABEL_PREVIEW', false),
-        'navigation_group' => 'White Label',
-        'navigation_sort' => 99,
+        'show_preview' => env('FILAMENT_WHITE_LABEL_PREVIEW', true),
+        'navigation_group' => 'nav.administration',
+        'navigation_sort' => 88,
     ],
 
     'login' => [
