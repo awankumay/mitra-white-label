@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use Closure;
 use Filament\Facades\Filament;
 use Illuminate\Http\Request;
@@ -12,6 +13,7 @@ class ForceSuperAdminTwoFactor
 {
     public function handle(Request $request, Closure $next): Response
     {
+        /** @var User|null $user */
         $user = Filament::auth()->user();
 
         if (

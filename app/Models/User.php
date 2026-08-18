@@ -20,6 +20,17 @@ use Illuminate\Notifications\Notifiable;
 use Jeffgreco13\FilamentBreezy\Traits\TwoFactorAuthenticatable;
 use Spatie\Permission\Traits\HasRoles;
 
+/**
+ * @method bool hasRole(mixed $roles, ?string $guard = null)
+ * @method bool hasPermission(mixed $permissions, ?string $guard = null)
+ * @method bool hasConfirmedTwoFactor()
+ * @method bool hasValidTwoFactorSession()
+ * @method ?string getTwoFactorSecret()
+ * @method void enableTwoFactorAuthentication()
+ * @method void disableTwoFactorAuthentication()
+ * @method array getRecoveryCodes()
+ * @method void generateRecoveryCodes()
+ */
 class User extends Authenticatable implements FilamentUser, MustVerifyEmail
 {
     /** @use HasFactory<UserFactory> */

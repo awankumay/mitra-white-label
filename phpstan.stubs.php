@@ -1,5 +1,22 @@
 <?php
 
+namespace App\Models;
+
+/**
+ * Stub for type hinting trait methods on User model.
+ * Helps both PHPStan and IDE intellisense recognize methods added by traits.
+ *
+ * @method bool hasRole(mixed $roles, ?string $guard = null)
+ * @method bool hasConfirmedTwoFactor()
+ * @method bool hasValidTwoFactorSession()
+ * @method ?string getTwoFactorSecret()
+ * @method void enableTwoFactorAuthentication()
+ * @method void disableTwoFactorAuthentication()
+ * @method array getRecoveryCodes()
+ * @method void generateRecoveryCodes()
+ */
+class UserMethodStubs {}
+
 namespace Illuminate\Foundation\Auth;
 
 use Jeffgreco13\FilamentBreezy\Traits\TwoFactorAuthenticatable;
