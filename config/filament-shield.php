@@ -239,6 +239,8 @@ return [
         'assign_user_to_unit',
         'remove_user_from_unit',
         'set_primary_unit',
+        'view:settings',
+        'update:settings',
     ],
 
     /*
