@@ -11,6 +11,9 @@ use Filament\Pages\Page;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * @property-read Schema $form
+ */
 class ApplicationSettings extends Page
 {
     protected string $view = 'filament.pages.settings.application-settings';
