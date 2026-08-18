@@ -295,16 +295,16 @@
 
 ## 9.1 Settings Architecture
 
-- [ ] Define settings contract
-- [ ] Define settings repository/storage
-- [ ] Define typed settings
-- [ ] Define settings scopes
-- [ ] Define default values
-- [ ] Define fallback behavior
+- [x] Define settings contract — `Core\Contracts\SettingsRepository`, spec §3.5
+- [x] Define settings repository/storage — `Core\Settings\DatabaseSettingsRepository`, tabel `settings` (M2/ADR-011)
+- [x] Define typed settings — `Core\Settings\SettingsRegistry` (`type` per key), spec §3.4
+- [x] Define settings scopes — `Core\Settings\Enums\SettingScope`, spec §3.2-3.3
+- [x] Define default values — `SettingsRegistry` (`default` per key), spec §3.4
+- [x] Define fallback behavior — cascading `User → Unit → Organization → System`, spec §3.6
 
 ## 9.2 System Settings
 
-- [ ] Application settings
+- [x] Application settings — storage + UI (`app/Filament/Pages/Settings/ApplicationSettings.php`), keys `app.name`/`app.locale`/`app.timezone`; runtime application of the stored values (app name display, locale/timezone activation) is deferred to a follow-up task, not part of this plan
 - [ ] Security settings
 - [ ] Localization settings
 - [ ] Mail settings

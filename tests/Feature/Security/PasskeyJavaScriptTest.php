@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Security;
 
-use App\Models\User;
 use Tests\TestCase;
 
 class PasskeyJavaScriptTest extends TestCase
