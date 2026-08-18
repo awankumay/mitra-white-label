@@ -29,6 +29,5 @@ yarn-error.log
 *bak**
 .playwright-cli/
 
-package-lock.json
 composer.lock
 patches.lock.json
