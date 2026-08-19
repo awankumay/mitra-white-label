@@ -337,28 +337,33 @@
 
 # 10. White Label / Branding
 
-- [ ] Define branding model
-- [ ] Define branding configuration
-- [ ] Implement application name
-- [ ] Implement company name
-- [ ] Implement logo
-- [ ] Implement dark logo
-- [ ] Implement favicon
-- [ ] Implement primary color
-- [ ] Implement secondary color
-- [ ] Implement login branding
-- [ ] Implement email branding
-- [ ] Implement footer branding
+- [x] Define branding model — grup `'branding'` di `Core\Settings\SettingsRegistry` (bukan model/tabel baru), spec `docs/superpowers/specs/2026-08-19-branding-design.md`
+- [x] Define branding configuration — `core/Config/core.php['branding']['disk']`, definisi key di `Core\Branding\BrandingServiceProvider::boot()`
+- [x] Implement application name — reuse `app.name` (M7), spec §2 keputusan #3
+- [x] Implement company name — `branding.company_name`
+- [x] Implement logo — `branding.logo`, `app/Filament/Pages/Settings/BrandingSettings.php`
+- [x] Implement dark logo — `branding.dark_logo`
+- [x] Implement favicon — `branding.favicon`
+- [x] Implement primary color — `branding.primary_color`, diterapkan ke panel via `AdminPanelProvider::colors()`
+- [x] Implement secondary color — `branding.secondary_color`
+- [x] Implement login branding — panel yang sama merender halaman login (`filament()->getBrandLogo()`/`getBrandName()`), tidak ada wiring terpisah
+- [x] Implement email branding — header email markdown (`resources/views/vendor/mail/html/header.blade.php`), hanya logo + nama (bukan tema warna/tombol)
+- [x] Implement footer branding — `branding.footer_text` (storage + UI; belum dirender di footer UI manapun — lihat catatan di bawah)
 
 ## Organization Branding
 
-- [ ] Implement organization branding
-- [ ] Implement branding fallback
-- [ ] Implement branding cache
+- [x] Implement organization branding — satu-satunya write tier di v1 (`SettingScope::Organization`), spec §2 keputusan #6
+- [x] Implement branding fallback — `Core\Branding\BrandingResolver` (Organization -> System -> default registry; fallback tambahan ke satu-satunya Organization di DB untuk konteks anonim)
+- [x] Implement branding cache — reuse cache per-tier `Core\Settings\DatabaseSettingsRepository` (M7), tidak ada mekanisme cache baru
 
 ## Future Extension
 
-- [ ] Define organizational-unit branding extension point
+- [ ] Define organizational-unit branding extension point — deferred, `SettingScope::Unit` sudah ada di enum tapi key `branding.*` tidak mendaftarkan scope ini (spec §8 Out of Scope)
+
+> Catatan: `branding.footer_text` tersimpan dan bisa diedit lewat `BrandingSettings`,
+> tapi belum dirender di footer panel/halaman manapun — menunggu ada UI footer yang
+> membutuhkannya. Uninstall `ashrafic/filament-white-label` dan migrasi penuh wiring
+> panel sengaja ditunda ke milestone terpisah (lihat Global Constraints plan ini).
 
 ---
 
