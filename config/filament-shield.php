@@ -241,6 +241,8 @@ return [
         'set_primary_unit',
         'view:settings',
         'update:settings',
+        'view:branding',
+        'update:branding',
     ],
 
     /*
