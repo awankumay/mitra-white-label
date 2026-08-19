@@ -364,6 +364,11 @@
 > tapi belum dirender di footer panel/halaman manapun — menunggu ada UI footer yang
 > membutuhkannya. Uninstall `ashrafic/filament-white-label` dan migrasi penuh wiring
 > panel sengaja ditunda ke milestone terpisah (lihat Global Constraints plan ini).
+> Selama package lama masih terpasang, wiring `AdminPanelProvider` fallback 3 tier:
+> Core Branding (Organization/System) → `FilamentWhiteLabel\Services\WhiteLabel`
+> (data lama dari `WhiteLabelSettingsResource`, kalau ada) → default hardcoded —
+> supaya installation yang sudah sempat mengisi branding lewat editor lama tidak
+> kehilangan tampilannya secara diam-diam (temuan final review, commit `ac59bcd`).
 
 ---
 
