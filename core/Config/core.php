@@ -1,5 +1,6 @@
 <?php
 
+use Core\Branding\BrandingServiceProvider;
 use Core\Context\ContextServiceProvider;
 use Core\Settings\Enums\SettingScope;
 use Core\Settings\SettingsServiceProvider;
@@ -8,12 +9,16 @@ return [
     'providers' => [
         ContextServiceProvider::class,
         SettingsServiceProvider::class,
+        BrandingServiceProvider::class,
     ],
     'organization' => [
         'max_depth' => 10,
     ],
     'context' => [
         'session_key' => 'context.unit_id',
+    ],
+    'branding' => [
+        'disk' => env('BRANDING_DISK', 'public'),
     ],
     'settings' => [
         'cache_ttl' => (int) env('SETTINGS_CACHE_TTL', 3600),
