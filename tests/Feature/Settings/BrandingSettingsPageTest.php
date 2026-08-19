@@ -116,6 +116,27 @@ class BrandingSettingsPageTest extends TestCase
         Storage::disk('public')->assertMissing('brand/old-logo.png');
     }
 
+    public function test_save_never_deletes_old_value_outside_brand_directory(): void
+    {
+        Storage::fake('public');
+        $org = Organization::factory()->create();
+        $user = $this->userWithPermissions(['view:branding', 'update:branding'], $org);
+        Storage::disk('public')->put('outside/sensitive.txt', 'do-not-delete');
+        // Simulates a previously-crafted/legacy stored value for this key that does not
+        // live under this page's own FileUpload directory ('brand/') — this is what a
+        // malicious Livewire payload on a prior save could have produced.
+        app(SettingsRepository::class)->set('branding.logo', 'outside/sensitive.txt', SettingScope::Organization, $org->id);
+        $this->actingAs($user);
+
+        Livewire::test(BrandingSettings::class)
+            ->set('data.branding_logo', [])
+            ->fillForm(['branding_logo' => UploadedFile::fake()->image('new-logo.png')])
+            ->call('save')
+            ->assertHasNoFormErrors();
+
+        Storage::disk('public')->assertExists('outside/sensitive.txt');
+    }
+
     public function test_save_forbidden_without_update_permission(): void
     {
         $org = Organization::factory()->create();

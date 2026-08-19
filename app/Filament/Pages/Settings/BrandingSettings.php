@@ -71,16 +71,19 @@ class BrandingSettings extends Page
                 FileUpload::make('branding_logo')
                     ->label('Logo')
                     ->image()
+                    ->maxSize(2048)
                     ->disk(config('core.branding.disk'))
                     ->directory('brand'),
                 FileUpload::make('branding_dark_logo')
                     ->label('Logo (Dark Mode)')
                     ->image()
+                    ->maxSize(2048)
                     ->disk(config('core.branding.disk'))
                     ->directory('brand'),
                 FileUpload::make('branding_favicon')
                     ->label('Favicon')
                     ->image()
+                    ->maxSize(2048)
                     ->disk(config('core.branding.disk'))
                     ->directory('brand'),
                 ColorPicker::make('branding_primary_color')
@@ -110,7 +113,7 @@ class BrandingSettings extends Page
 
             if (in_array($key, ['branding.logo', 'branding.dark_logo', 'branding.favicon'], true)) {
                 $old = $repository->getForScope($key, SettingScope::Organization, $orgId);
-                if ($old !== null && $old !== $newValue && $disk->exists($old)) {
+                if ($old !== null && $old !== $newValue && str_starts_with($old, 'brand/') && $disk->exists($old)) {
                     $disk->delete($old);
                 }
             }

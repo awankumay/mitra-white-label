@@ -29,6 +29,7 @@ use Filament\View\PanelsRenderHook;
 use Filament\Widgets\AccountWidget;
 use Filament\Widgets\FilamentInfoWidget;
 use FilamentWhiteLabel\Resources\WhiteLabelSettingsResource;
+use FilamentWhiteLabel\Services\WhiteLabel;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
@@ -56,13 +57,13 @@ class AdminPanelProvider extends PanelProvider
                 'primary' => Color::Taupe,
             ])
             ->whiteLabel()
-            ->brandName(fn (): ?string => app(BrandingResolver::class)->get('branding.company_name') ?? config('app.name'))
-            ->brandLogo(fn (): ?string => app(BrandingResolver::class)->url('branding.logo'))
-            ->darkModeBrandLogo(fn (): ?string => app(BrandingResolver::class)->url('branding.dark_logo'))
-            ->favicon(fn (): ?string => app(BrandingResolver::class)->url('branding.favicon'))
+            ->brandName(fn (): ?string => app(BrandingResolver::class)->get('branding.company_name') ?? WhiteLabel::brandName() ?? config('app.name'))
+            ->brandLogo(fn (): ?string => app(BrandingResolver::class)->url('branding.logo') ?? WhiteLabel::logoUrl())
+            ->darkModeBrandLogo(fn (): ?string => app(BrandingResolver::class)->url('branding.dark_logo') ?? WhiteLabel::darkModeBrandLogoUrl())
+            ->favicon(fn (): ?string => app(BrandingResolver::class)->url('branding.favicon') ?? WhiteLabel::faviconUrl())
             ->colors(fn (): array => array_filter([
-                'primary' => ($hex = app(BrandingResolver::class)->get('branding.primary_color')) ? Color::hex($hex) : null,
-                'secondary' => ($hex = app(BrandingResolver::class)->get('branding.secondary_color')) ? Color::hex($hex) : null,
+                'primary' => ($hex = app(BrandingResolver::class)->get('branding.primary_color') ?? (WhiteLabel::colors()['primary'] ?? null)) ? Color::hex($hex) : null,
+                'secondary' => ($hex = app(BrandingResolver::class)->get('branding.secondary_color') ?? (WhiteLabel::colors()['secondary'] ?? null)) ? Color::hex($hex) : null,
             ]))
             ->resources([
                 WhiteLabelSettingsResource::class,
