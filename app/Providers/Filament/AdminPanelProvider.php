@@ -11,6 +11,7 @@ use App\Livewire\Security\UpdatePassword;
 use App\Models\User;
 use Awcodes\QuickCreate\QuickCreatePlugin;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
+use Core\Branding\BrandingResolver;
 use CraftForge\FilamentLanguageSwitcher\FilamentLanguageSwitcherPlugin;
 use DutchCodingCompany\FilamentDeveloperLogins\FilamentDeveloperLoginsPlugin;
 use Filament\Http\Middleware\Authenticate;
@@ -55,6 +56,14 @@ class AdminPanelProvider extends PanelProvider
                 'primary' => Color::Taupe,
             ])
             ->whiteLabel()
+            ->brandName(fn (): ?string => app(BrandingResolver::class)->get('branding.company_name') ?? config('app.name'))
+            ->brandLogo(fn (): ?string => app(BrandingResolver::class)->url('branding.logo'))
+            ->darkModeBrandLogo(fn (): ?string => app(BrandingResolver::class)->url('branding.dark_logo'))
+            ->favicon(fn (): ?string => app(BrandingResolver::class)->url('branding.favicon'))
+            ->colors(fn (): array => array_filter([
+                'primary' => ($hex = app(BrandingResolver::class)->get('branding.primary_color')) ? Color::hex($hex) : null,
+                'secondary' => ($hex = app(BrandingResolver::class)->get('branding.secondary_color')) ? Color::hex($hex) : null,
+            ]))
             ->resources([
                 WhiteLabelSettingsResource::class,
             ])
