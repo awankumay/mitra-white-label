@@ -59,6 +59,16 @@ Cache per-tier mentah (bukan per-hasil-cascade), TTL `core.settings.cache_ttl`. 
 3. `mount()`/`save()` halaman memakai `SettingsRegistry::keysInGroup()` — tidak perlu
    diubah kalau key baru masuk grup yang sudah ada.
 
+```php
+// Grup security (System tier) — lihat spec 2026-08-20-security-settings-design.md
+'security.two_factor_required' => [
+    'type' => 'bool',
+    'default' => (bool) env('AUTH_2FA_FORCE', false),
+    'scopes' => [SettingScope::System],
+    'group' => 'security',
+],
+```
+
 ## Branding
 
 Branding (TODO §10) memakai infrastruktur di atas — 7 key di grup `'branding'`

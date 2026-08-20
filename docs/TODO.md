@@ -305,7 +305,7 @@
 ## 9.2 System Settings
 
 - [x] Application settings — storage + UI (`app/Filament/Pages/Settings/ApplicationSettings.php`), keys `app.name`/`app.locale`/`app.timezone`; runtime application of the stored values (app name display, locale/timezone activation) is deferred to a follow-up task, not part of this plan
-- [ ] Security settings
+- [x] Security settings — storage + UI (`app/Filament/Pages/Settings/SecuritySettings.php`), keys `security.two_factor_required`/`security.password_min_length`/`security.password_require_complexity`; runtime application (2FA force middleware, password rules) is deferred to a follow-up task, not part of this plan
 - [ ] Localization settings
 - [ ] Mail settings
 - [ ] Storage settings
