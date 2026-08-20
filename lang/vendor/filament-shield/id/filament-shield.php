@@ -7,11 +7,11 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'column.name' => 'Name',
-    'column.guard_name' => 'Guard Name',
-    'column.roles' => 'Roles',
-    'column.permissions' => 'Permissions',
-    'column.updated_at' => 'Updated At',
+    'column.name' => 'Nama',
+    'column.guard_name' => 'Nama Guard',
+    'column.roles' => 'Peran',
+    'column.permissions' => 'Izin',
+    'column.updated_at' => 'Diperbarui Pada',
 
     /*
     |--------------------------------------------------------------------------
@@ -19,11 +19,11 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'field.name' => 'Name',
-    'field.guard_name' => 'Guard Name',
-    'field.permissions' => 'Permissions',
-    'field.select_all.name' => 'Select All',
-    'field.select_all.message' => 'Enable all Permissions currently <span class="text-primary font-medium">Enabled</span> for this role',
+    'field.name' => 'Nama',
+    'field.guard_name' => 'Nama Guard',
+    'field.permissions' => 'Izin',
+    'field.select_all.name' => 'Pilih Semua',
+    'field.select_all.message' => 'Aktifkan semua Izin yang saat ini <span class="text-primary font-medium">Diaktifkan</span> untuk peran ini',
 
     /*
     |--------------------------------------------------------------------------
@@ -31,11 +31,11 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'nav.group' => 'Administration',
-    'nav.role.label' => 'Roles',
+    'nav.group' => 'Administrasi',
+    'nav.role.label' => 'Peran',
     'nav.role.icon' => 'heroicon-o-shield-check',
-    'resource.label.role' => 'Role',
-    'resource.label.roles' => 'Roles',
+    'resource.label.role' => 'Peran',
+    'resource.label.roles' => 'Peran',
 
     /*
     |--------------------------------------------------------------------------
@@ -43,11 +43,11 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'section' => 'Entities',
-    'resources' => 'Resources',
-    'widgets' => 'Widgets',
-    'pages' => 'Pages',
-    'custom' => 'Custom Permissions',
+    'section' => 'Entitas',
+    'resources' => 'Sumber Daya',
+    'widgets' => 'Widget',
+    'pages' => 'Halaman',
+    'custom' => 'Izin Kustom',
 
     /*
     |--------------------------------------------------------------------------
@@ -55,7 +55,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'forbidden' => 'You do not have permission to access',
+    'forbidden' => 'Anda tidak memiliki izin untuk mengakses',
 
     /*
     |--------------------------------------------------------------------------
@@ -64,17 +64,17 @@ return [
     */
 
     'resource_permission_prefixes_labels' => [
-        'view' => 'View',
-        'view_any' => 'View Any',
-        'create' => 'Create',
-        'update' => 'Update',
-        'delete' => 'Delete',
-        'delete_any' => 'Delete Any',
-        'force_delete' => 'Force Delete',
-        'force_delete_any' => 'Force Delete Any',
-        'restore' => 'Restore',
-        'reorder' => 'Reorder',
-        'restore_any' => 'Restore Any',
-        'replicate' => 'Replicate',
+        'view' => 'Lihat',
+        'view_any' => 'Lihat Semua',
+        'create' => 'Buat',
+        'update' => 'Perbarui',
+        'delete' => 'Hapus',
+        'delete_any' => 'Hapus Semua',
+        'force_delete' => 'Hapus Permanen',
+        'force_delete_any' => 'Hapus Permanen Semua',
+        'restore' => 'Pulihkan',
+        'reorder' => 'Urutkan Ulang',
+        'restore_any' => 'Pulihkan Semua',
+        'replicate' => 'Duplikat',
     ],
 ];

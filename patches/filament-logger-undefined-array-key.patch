@@ -1,0 +1,47 @@
+--- a/src/Resources/ActivityResource/Tables/ActivitiesTable.php
++++ b/src/Resources/ActivityResource/Tables/ActivitiesTable.php
+@@ -70,7 +70,7 @@ public static function configure(Table $table): Table
+
+                 Filter::make('properties->old')
+                     ->indicateUsing(function (array $data): ?string {
+-                        if (! $data['old']) {
++                        if (! ($data['old'] ?? null)) {
+                             return null;
+                         }
+
+@@ -82,7 +82,7 @@ public static function configure(Table $table): Table
+                             ->hint(__('filament-logger::filament-logger.resource.label.properties_hint')),
+                     ])
+                     ->query(function (Builder $query, array $data): Builder {
+-                        if (! $data['old']) {
++                        if (! ($data['old'] ?? null)) {
+                             return $query;
+                         }
+
+@@ -91,7 +91,7 @@ public static function configure(Table $table): Table
+
+                 Filter::make('properties->attributes')
+                     ->indicateUsing(function (array $data): ?string {
+-                        if (! $data['new']) {
++                        if (! ($data['new'] ?? null)) {
+                             return null;
+                         }
+
+@@ -103,7 +103,7 @@ public static function configure(Table $table): Table
+                             ->hint(__('filament-logger::filament-logger.resource.label.properties_hint')),
+                     ])
+                     ->query(function (Builder $query, array $data): Builder {
+-                        if (! $data['new']) {
++                        if (! ($data['new'] ?? null)) {
+                             return $query;
+                         }
+
+@@ -119,7 +119,7 @@ public static function configure(Table $table): Table
+                     ->query(function (Builder $query, array $data): Builder {
+                         return $query
+                             ->when(
+-                                $data['logged_at'],
++                                $data['logged_at'] ?? null,
+                                 fn (Builder $query, $date): Builder => $query->whereDate('created_at', $date),
+                             );
+                     }),

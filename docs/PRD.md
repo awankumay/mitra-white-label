@@ -632,24 +632,24 @@ Viewer
 
 Role harus dapat ditambah atau dimodifikasi oleh application.
 
-Permission menggunakan pola:
+Permission menggunakan pola `action:subject` (format Filament Shield v4.3.1):
 
 ```text
-resource.action
+action:subject
 ```
 
 Contoh:
 
 ```text
-users.view
-users.create
-users.update
-users.delete
+view:users
+create:users
+update:users
+delete:users
 
-organization_units.view
-organization_units.create
-organization_units.update
-organization_units.delete
+view:organizational_units
+create:organizational_units
+update:organizational_units
+delete:organizational_units
 ```
 
 ---

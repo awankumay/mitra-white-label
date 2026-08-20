@@ -2,6 +2,8 @@
 
 namespace App\Policies;
 
+use App\Models\User;
+use Core\Support\Scope;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Foundation\Auth\User as AuthUser;
 
@@ -11,56 +13,84 @@ class UserPolicy
 
     public function viewAny(AuthUser $authUser): bool
     {
-        return $authUser->can('view_any_user');
+        return $authUser->can('view_any:user');
     }
 
     public function view(AuthUser $authUser): bool
     {
-        return $authUser->can('view_user');
+        return $authUser->can('view:user');
     }
 
     public function create(AuthUser $authUser): bool
     {
-        return $authUser->can('create_user');
+        return $authUser->can('create:user');
     }
 
-    public function update(AuthUser $authUser): bool
+    public function update(AuthUser $authUser, User $user): bool
     {
-        return $authUser->can('update_user');
+        return $authUser->can('update:user')
+            && $this->sharesScope($authUser, $user);
     }
 
-    public function delete(AuthUser $authUser): bool
+    public function delete(AuthUser $authUser, User $user): bool
     {
-        return $authUser->can('delete_user');
+        return $authUser->can('delete:user')
+            && $this->sharesScope($authUser, $user);
     }
 
-    public function restore(AuthUser $authUser): bool
+    public function restore(AuthUser $authUser, User $user): bool
     {
-        return $authUser->can('restore_user');
+        return $authUser->can('restore:user')
+            && $this->sharesScope($authUser, $user);
     }
 
-    public function forceDelete(AuthUser $authUser): bool
+    public function forceDelete(AuthUser $authUser, User $user): bool
     {
-        return $authUser->can('force_delete_user');
+        return $authUser->can('force_delete:user')
+            && $this->sharesScope($authUser, $user);
+    }
+
+    /**
+     * @param  AuthUser  $authUser  runtime instance is App\Models\User
+     */
+    private function sharesScope(AuthUser $authUser, User $target): bool
+    {
+        if (Scope::isSuperAdmin($authUser)) {
+            return true;
+        }
+
+        /** @var User $authUser */
+        $authUnitIds = $authUser->units()->pluck('organizational_units.id');
+        $targetUnitIds = $target->units()->pluck('organizational_units.id');
+
+        if ($authUnitIds->intersect($targetUnitIds)->isNotEmpty()) {
+            return true;
+        }
+
+        /** @var User $authUser */
+        $authOrgIds = $authUser->organizations()->pluck('organizations.id');
+        $targetOrgIds = $target->organizations()->pluck('organizations.id');
+
+        return $authOrgIds->intersect($targetOrgIds)->isNotEmpty();
     }
 
     public function forceDeleteAny(AuthUser $authUser): bool
     {
-        return $authUser->can('force_delete_any_user');
+        return $authUser->can('force_delete_any:user');
     }
 
     public function restoreAny(AuthUser $authUser): bool
     {
-        return $authUser->can('restore_any_user');
+        return $authUser->can('restore_any:user');
     }
 
     public function replicate(AuthUser $authUser): bool
     {
-        return $authUser->can('replicate_user');
+        return $authUser->can('replicate:user');
     }
 
     public function reorder(AuthUser $authUser): bool
     {
-        return $authUser->can('reorder_user');
+        return $authUser->can('reorder:user');
     }
 }

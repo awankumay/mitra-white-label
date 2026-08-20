@@ -6,9 +6,11 @@
 /storage/*.key
 /storage/pail
 /vendor
+/vendor_bak*
 .env
 .env.backup
 .env.production
+.env.testing
 .phpactor.json
 .phpunit.result.cache
 Homestead.json
@@ -25,3 +27,7 @@ yarn-error.log
 .commandcode/taste/
 
 *bak**
+.playwright-cli/
+
+composer.lock
+patches.lock.json

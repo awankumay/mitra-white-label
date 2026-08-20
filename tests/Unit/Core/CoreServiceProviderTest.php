@@ -2,6 +2,11 @@
 
 namespace Tests\Unit\Core;
 
+use Core\Context\ContextServiceProvider;
+use Core\Context\OrganizationalUnitContextManager;
+use Core\Context\OrganizationContextManager;
+use Core\Contracts\OrganizationalUnitContext;
+use Core\Contracts\OrganizationContext;
 use Core\CoreServiceProvider;
 use Illuminate\Support\ServiceProvider;
 use Tests\TestCase;
@@ -25,5 +30,30 @@ class CoreServiceProviderTest extends TestCase
         $provider->register();
 
         $this->assertInstanceOf(CoreServiceProvider::class, $provider);
+    }
+
+    public function test_context_provider_is_registered_in_config(): void
+    {
+        $this->assertContains(
+            ContextServiceProvider::class,
+            config('core.providers')
+        );
+    }
+
+    public function test_context_contracts_are_bound_to_managers(): void
+    {
+        $this->assertInstanceOf(
+            OrganizationContextManager::class,
+            app(OrganizationContext::class)
+        );
+        $this->assertInstanceOf(
+            OrganizationalUnitContextManager::class,
+            app(OrganizationalUnitContext::class)
+        );
+    }
+
+    public function test_context_config_has_session_key(): void
+    {
+        $this->assertSame('context.unit_id', config('core.context.session_key'));
     }
 }

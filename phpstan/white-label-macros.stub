@@ -1,0 +1,14 @@
+<?php
+
+namespace Filament;
+
+/**
+ * Macro dari vendor/ashrafic/filament-white-label
+ * (FilamentWhiteLabelServiceProvider::register — Panel::macro('whiteLabel')).
+ * Stub memberitahu PHPStan bahwa method macro valid.
+ *
+ * @phpstan-method $this whiteLabel(bool $condition = true)
+ */
+class Panel
+{
+}

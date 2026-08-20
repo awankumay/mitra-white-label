@@ -1,0 +1,30 @@
+includes:
+  - ./vendor/larastan/larastan/extension.neon
+  - ./vendor/larastan/larastan/rules.neon
+
+parameters:
+  level: 8
+  paths:
+    - app
+    - bootstrap
+    - config
+    - core
+    - database
+    - routes
+    - tests
+
+  excludePaths:
+    - bootstrap/cache
+    - storage
+
+  checkModelProperties: true
+  checkMissingIterableValueType: false
+
+  stubFiles:
+    - ./phpstan.stubs.php
+
+ignoreErrors:
+  - identifier: trait.unused
+  - identifier: missingType.iterableValue
+
+reportUnmatchedIgnoredErrors: false

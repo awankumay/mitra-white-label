@@ -1,0 +1,8 @@
+--- a/src/Resources/WhiteLabelSettingsResource.php
++++ b/src/Resources/WhiteLabelSettingsResource.php
+@@ -53,4 +53,4 @@
+     public static function getNavigationGroup(): ?string
+     {
+-        return null;
++        return __(config('filament-white-label.ui.navigation_group', 'nav.administration'));
+     }

@@ -33,9 +33,15 @@
 
 ## Permission
 
-- Pola `resource.action` (PRD §19):
-  `users.view`, `users.create`, `users.update`, `users.delete`,
-  `organization_units.view`, dst.
+- Pola `action:subject` (format Filament Shield v4.3.1, PRD §19):
+  `view:users`, `create:users`, `update:users`, `delete:users`,
+  `view:organizational_units`, dst.
+- Method policy di-generate Shield ke snake_case: `viewAny` → `view_any`,
+  `forceDeleteAny` → `force_delete_any`.
+- Separator dan case mengikuti `config/filament-shield.php`
+  (`permissions.separator => ':'`, `permissions.case => 'snake'`).
+- Policy resource model Core di-generate ke `core/<Domain>/Policies/`
+  (Shield menurunkan path dari lokasi model); model `app/Models/` → `app/Policies/`.
 
 ## Bahasa
 

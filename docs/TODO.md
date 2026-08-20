@@ -44,46 +44,46 @@
 
 ## 1.2 Directory Structure
 
-- [ ] Define final `app/` structure
-- [ ] Define `Core` structure
-- [ ] Define `Domain` conventions
-- [ ] Define `Actions` conventions
-- [ ] Define `Services` conventions
-- [ ] Define `Contracts` conventions
-- [ ] Define `Enums` conventions
-- [ ] Define `Support` conventions
-- [ ] Define `Filament` conventions
-- [ ] Define `modules/` conventions
+- [x] Define final `app/` structure — `docs/conventions/directory-structure.md`, spec §3.2
+- [x] Define `Core` structure — `docs/conventions/directory-structure.md`, spec §3.1
+- [x] Define `Domain` conventions — `docs/conventions/directory-structure.md`, spec §4.1
+- [x] Define `Actions` conventions — `docs/conventions/directory-structure.md`, spec §4.2
+- [x] Define `Services` conventions — `docs/conventions/directory-structure.md`, spec §4.3
+- [x] Define `Contracts` conventions — `docs/conventions/directory-structure.md`, spec §4.4
+- [x] Define `Enums` conventions — `docs/conventions/directory-structure.md`, spec §4.5
+- [x] Define `Support` conventions — `docs/conventions/directory-structure.md`, spec §4.7
+- [x] Define `Filament` conventions — `docs/conventions/directory-structure.md`, spec §3.2, §4.8
+- [x] Define `modules/` conventions — `docs/conventions/directory-structure.md`, spec §3.3
 
 ## 1.3 Architecture Rules
 
-- [ ] Define Core dependency rules
-- [ ] Prevent Core → Business Module dependency
-- [ ] Define Module → Core dependency rules
-- [ ] Define Model conventions
-- [ ] Define Policy conventions
-- [ ] Define Action conventions
-- [ ] Define Service conventions
-- [ ] Define Event/Listener conventions
+- [x] Define Core dependency rules — `docs/conventions/coding.md`, spec §3
+- [x] Prevent Core → Business Module dependency — `docs/conventions/coding.md`, spec §3.1, arch test §3.2
+- [x] Define Module → Core dependency rules — `docs/conventions/coding.md`, spec §3.1
+- [x] Define Model conventions — `docs/conventions/coding.md`, spec §4
+- [x] Define Policy conventions — `docs/conventions/coding.md`, spec §5
+- [x] Define Action conventions — `docs/conventions/coding.md`, spec §6
+- [x] Define Service conventions — `docs/conventions/coding.md`, spec §7
+- [x] Define Event/Listener conventions — `docs/conventions/coding.md`, spec §8
 
 ---
 
 # 2. Configuration & Environment
 
-- [ ] Review `.env.example`
-- [ ] Define required environment variables
-- [ ] Define optional environment variables
-- [ ] Define application configuration
-- [ ] Define Core configuration
-- [ ] Define security configuration
-- [ ] Define organization configuration
-- [ ] Define branding configuration
-- [ ] Define feature configuration
-- [ ] Define localization configuration
-- [ ] Define database configuration
-- [ ] Define cache configuration
-- [ ] Define queue configuration
-- [ ] Define filesystem configuration
+- [x] Review `.env.example` — `.env.example`, spec §5
+- [x] Define required environment variables — `docs/conventions/environment.md`, spec §3.2
+- [x] Define optional environment variables — `docs/conventions/environment.md`, spec §3.2
+- [x] Define application configuration — `docs/conventions/environment.md`, spec §4
+- [x] Define Core configuration — `docs/conventions/environment.md`, spec §4
+- [x] Define security configuration — `docs/conventions/environment.md`, spec §4
+- [ ] Define organization configuration — defer ke milestone Organization
+- [ ] Define branding configuration — defer ke milestone White Label
+- [ ] Define feature configuration — defer ke milestone Feature Registry
+- [x] Define localization configuration — `docs/conventions/environment.md`, spec §4
+- [x] Define database configuration — `docs/conventions/environment.md`, spec §4
+- [x] Define cache configuration — `docs/conventions/environment.md`, spec §4
+- [x] Define queue configuration — `docs/conventions/environment.md`, spec §4
+- [x] Define filesystem configuration — `docs/conventions/environment.md`, spec §4
 
 ---
 
@@ -91,32 +91,32 @@
 
 ## 3.1 Database Conventions
 
-- [ ] Define primary key strategy
-- [ ] Define UUID/ULID strategy
-- [ ] Define timestamps convention
-- [ ] Define soft-delete convention
-- [ ] Define foreign key convention
-- [ ] Define indexing convention
-- [ ] Define naming convention
-- [ ] Define audit columns convention
+- [x] Define primary key strategy — `docs/conventions/database.md` (ADR-004)
+- [x] Define UUID/ULID strategy — `docs/conventions/database.md` (UUIDv7, ADR-011)
+- [x] Define timestamps convention — `docs/conventions/database.md`
+- [x] Define soft-delete convention — `docs/conventions/database.md`
+- [x] Define foreign key convention — `docs/conventions/database.md`
+- [x] Define indexing convention — `docs/conventions/database.md`
+- [x] Define naming convention — `docs/conventions/database.md`
+- [x] Define audit columns convention — `docs/conventions/database.md`
 
 ## 3.2 Core Tables
 
-- [ ] Design `organizations`
-- [ ] Design `organizational_units`
-- [ ] Design `organizational_unit_user`
-- [ ] Design `organization_user` if required by implementation
-- [ ] Design `settings`
-- [ ] Design `audit_logs`
-- [ ] Design `security_events`
+- [x] Design `organizations` — `core/Database/Migrations/2026_08_16_000001_create_organizations_table.php`
+- [x] Design `organizational_units` — `core/Database/Migrations/2026_08_16_000002_create_organizational_units_table.php`
+- [x] Design `organizational_unit_user` — `core/Database/Migrations/2026_08_16_000003_create_organizational_unit_user_table.php`
+- [x] Design `organization_user` if required by implementation — `core/Database/Migrations/2026_08_16_000004_create_organization_user_table.php`
+- [x] Design `settings` — `core/Database/Migrations/2026_08_16_000006_create_settings_table.php`
+- [x] Design `audit_logs` — `core/Database/Migrations/2026_08_16_000007_create_audit_logs_table.php`
+- [x] Design `security_events` — `core/Database/Migrations/2026_08_16_000008_create_security_events_table.php`
 
 ## 3.3 Database Constraints
 
-- [ ] Add foreign keys
-- [ ] Add indexes
-- [ ] Add unique constraints
-- [ ] Validate organizational hierarchy constraints
-- [ ] Validate user/unit assignment constraints
+- [x] Add foreign keys — `core/Database/Migrations/` (onDelete hybrid, ADR-011)
+- [x] Add indexes — `core/Database/Migrations/` (index di tiap tabel Core)
+- [x] Add unique constraints — `organizations.name`, `settings_scope_unique`, composite PK pivot
+- [ ] Validate organizational hierarchy constraints — validasi aplikasi (cycle, parent ≠ self, se-organization, depth) di M3 (`docs/conventions/database.md`)
+- [ ] Validate user/unit assignment constraints — validasi aplikasi (primary unit harus unit yang di-assign) di M3 (`docs/conventions/database.md`)
 
 ---
 
@@ -124,32 +124,32 @@
 
 ## 4.1 Organization
 
-- [ ] Create Organization model
-- [ ] Create Organization migration
-- [ ] Create Organization factory
-- [ ] Create Organization policy
-- [ ] Create Organization service/action layer
-- [ ] Create Organization Filament resource/page
+- [x] Create Organization model — `core/Organization/Models/Organization.php`
+- [x] Create Organization migration — `core/Database/Migrations/2026_08_16_000001_create_organizations_table.php` (M2)
+- [x] Create Organization factory — `core/Database/Factories/OrganizationFactory.php`
+- [x] Create Organization policy — `core/Organization/Policies/OrganizationPolicy.php` (Shield, format `action:subject`)
+- [x] Create Organization service/action layer — `core/Organization/Actions/`
+- [x] Create Organization Filament resource/page — `app/Filament/Resources/Organizations/`
 
 ## 4.2 Organizational Unit
 
-- [ ] Create OrganizationalUnit model
-- [ ] Create migration
-- [ ] Create factory
-- [ ] Create policy
-- [ ] Implement parent/child relationship
-- [ ] Implement hierarchy queries
-- [ ] Implement root unit support
-- [ ] Implement unit types
-- [ ] Create Filament management UI
+- [x] Create OrganizationalUnit model — `core/Organization/Models/OrganizationalUnit.php`
+- [x] Create migration — `core/Database/Migrations/2026_08_16_000002_create_organizational_units_table.php` (M2)
+- [x] Create factory — `core/Database/Factories/OrganizationalUnitFactory.php`
+- [x] Create policy — `core/Organization/Policies/OrganizationalUnitPolicy.php` (Shield, format `action:subject`)
+- [x] Implement parent/child relationship — `parent()`/`children()` di model; validasi parent se-organization + batas kedalaman di `CreateOrganizationalUnitAction`
+- [ ] Implement hierarchy queries — **deferred ke §5** (lanjutan: recursive CTE untuk subtree/descendant/ancestor queries)
+- [ ] Implement root unit support — **deferred ke §5** (root unit sebagai context default saat switching; seeder sudah membuat root unit)
+- [x] Implement unit types — `core/Organization/Enums/OrganizationalUnitType.php` (4 case, cast di model)
+- [x] Create Filament management UI — `app/Filament/Resources/OrganizationalUnits/`
 
 ## 4.3 User Assignment
 
-- [ ] Implement user → organizational unit assignment
-- [ ] Implement multiple unit access
-- [ ] Implement primary organizational unit
-- [ ] Validate assignment permissions
-- [ ] Create assignment management UI
+- [x] Implement user → organizational unit assignment — `app/Actions/Organization/AssignUserToUnitAction.php`
+- [x] Implement multiple unit access — pivot `organizational_unit_user` + relasi `units()` (BelongsToMany)
+- [x] Implement primary organizational unit — `app/Actions/Organization/SetPrimaryUnitAction.php` + `primary_organizational_unit_id`
+- [x] Validate assignment permissions — policy Shield `action:subject` + `app/Policies/OrganizationalAccessPolicy.php`
+- [x] Create assignment management UI — `app/Filament/Resources/Users/Schemas/OrganizationalAccessSchema.php` (di UserForm)
 
 ---
 
@@ -157,131 +157,137 @@
 
 ## 5.1 Context Contracts
 
-- [ ] Define `OrganizationContext`
-- [ ] Define `OrganizationalUnitContext`
-- [ ] Define context contracts
-- [ ] Define context lifecycle
+- [x] Define `OrganizationContext` — `core/Contracts/OrganizationContext.php` (kontrak, spec §3.2)
+- [x] Define `OrganizationalUnitContext` — `core/Contracts/OrganizationalUnitContext.php` (kontrak, spec §3.2)
+- [x] Define context contracts — `core/Contracts/`, binding via `ContextServiceProvider` (spec §3.2, ADR-008)
+- [x] Define context lifecycle — session `unit_id` + resolve ulang per-request (spec §4.3)
 
 ## 5.2 Context Resolution
 
-- [ ] Resolve organization context
-- [ ] Resolve primary organizational unit
-- [ ] Resolve current organizational unit
-- [ ] Handle users with multiple units
-- [ ] Handle users without assigned units
-- [ ] Validate context authorization
+- [x] Resolve organization context — `core/Context/OrganizationContextManager.php` (derive dari current unit / pivot `organization_user`, spec §3.3)
+- [x] Resolve primary organizational unit — `ContextResolver` fallback primary unit (spec §4.1)
+- [x] Resolve current organizational unit — `core/Context/OrganizationalUnitContextManager.php` + `ContextResolver` (spec §4.2)
+- [x] Handle users with multiple units — fallback unit pertama jika tanpa primary (spec §4.1)
+- [x] Handle users without assigned units — org context via pivot `organization_user`, unit context kosong (spec §4.1)
+- [x] Validate context authorization — session basi → clear + fallback; switch tidak valid → `OrganizationException::invalidAssignment` (spec §4.2, §8)
 
 ## 5.3 Context Switching
 
-- [ ] Implement unit switcher
-- [ ] Implement current unit persistence
-- [ ] Prevent unauthorized switching
-- [ ] Add context switching tests
-- [ ] Integrate context with Filament
+- [x] Implement unit switcher — `PanelsRenderHook::USER_MENU_BEFORE` (spec §5.2)
+- [x] Implement current unit persistence — session `config('core.context.session_key', 'context.unit_id')` (spec §5.4)
+- [x] Prevent unauthorized switching — `SwitchUnitAction` validasi assignment (spec §5.1)
+- [x] Add context switching tests — `tests/Feature/Context/SwitchUnitTest.php`, `tests/Unit/Context/SwitchUnitActionTest.php`
+- [x] Integrate context with Filament — `tests/Feature/Context/ContextFilamentTest.php`
 
 ## 5.4 Non-Filament Usage
 
-- [ ] Make context available to Services
-- [ ] Make context available to Actions
-- [ ] Make context available to Policies
-- [ ] Make context available to Jobs
-- [ ] Make context available to Console Commands
+- [x] Make context available to Services — `app(OrganizationalUnitContext::class)->current()` (spec §6)
+- [x] Make context available to Actions — idem, `tests/Unit/Context/ContextNonFilamentTest.php`
+- [x] Make context available to Policies — cek `$context->has()` + `currentId()` (spec §6)
+- [x] Make context available to Jobs — set eksplisit di `handle()` / terima `unit_id` (spec §6)
+- [x] Make context available to Console Commands — opsi `--unit=` / `set()` manual (spec §6)
 
 ---
 
 # 6. Data Scope Architecture
 
-- [ ] Define Global scope convention
-- [ ] Define Organization scope convention
-- [ ] Define Organizational Unit scope convention
-- [ ] Define scoped model conventions
-- [ ] Define scope-aware query patterns
-- [ ] Define scope-aware policies
-- [ ] Define scope-aware resource patterns
-- [ ] Define scope bypass rules for administrators
-- [ ] Add scope tests
+- [x] Define Global scope convention — `docs/conventions/scope.md`, spec §2
+- [x] Define Organization scope convention — `docs/conventions/scope.md`, spec §2
+- [x] Define Organizational Unit scope convention — `docs/conventions/scope.md`, spec §2
+- [x] Define scoped model conventions — `Core\Contracts\ScopedModel`, `core/Enums/DataScope`, spec §4
+- [x] Define scope-aware query patterns — `Core\Support\Scope`, spec §4.3
+- [x] Define scope-aware policies — `app/Policies/ScopePolicy.php`, spec §5.1
+- [x] Define scope-aware resource patterns — `docs/conventions/scope.md`, spec §5.2
+- [x] Define scope bypass rules for administrators — role `super_admin`, spec §6
+- [x] Add scope tests — `tests/Unit/Scope/`, `tests/Feature/Scope/`
 
 ---
 
 # 7. Authentication
 
+> Implemented (M5). Spec: `docs/superpowers/specs/2026-08-16-authentication-security-design.md`;
+> plan: `docs/superpowers/plans/2026-08-16-authentication-security.md`.
+
 ## 7.1 Base Authentication
 
-- [ ] Review current authentication implementation
-- [ ] Configure login
-- [ ] Configure logout
-- [ ] Configure password reset
-- [ ] Configure email verification
-- [ ] Configure password confirmation
-- [ ] Configure session handling
+- [x] Review current authentication implementation
+- [x] Configure login
+- [x] Configure logout
+- [x] Configure password reset
+- [x] Configure email verification
+- [x] Configure password confirmation
+- [x] Configure session handling
 
 ## 7.2 Account Security
 
-- [ ] Install/configure selected security package(s)
-- [ ] Implement security settings page
-- [ ] Implement password change
-- [ ] Implement active session management
-- [ ] Implement session revocation
-- [ ] Implement revoke-all-other-sessions
+- [x] Install/configure selected security package(s) — Breezy v3.2
+- [ ] Implement security settings page — **deferred ke M7** (Settings System, §9.2)
+- [x] Implement password change
+- [x] Implement active session management
+- [x] Implement session revocation
+- [x] Implement revoke-all-other-sessions
 
 ## 7.3 Two-Factor Authentication
 
-- [ ] Implement TOTP
-- [ ] Implement QR enrollment
-- [ ] Implement recovery codes
-- [ ] Implement recovery code regeneration
-- [ ] Implement enable/disable flow
-- [ ] Define 2FA policy
-- [ ] Add 2FA tests
+- [x] Implement TOTP
+- [x] Implement QR enrollment
+- [x] Implement recovery codes
+- [x] Implement recovery code regeneration
+- [x] Implement enable/disable flow
+- [x] Define 2FA policy
+- [x] Add 2FA tests
 
 ## 7.4 Passkeys
 
-- [ ] Select passkey implementation
-- [ ] Implement passkey registration
-- [ ] Implement passkey authentication
-- [ ] Implement passkey management
-- [ ] Implement passkey revocation
-- [ ] Add passkey tests
+- [x] Select passkey implementation — Breezy/webauthn-lib
+- [x] Implement passkey registration
+- [x] Implement passkey authentication
+- [x] Implement passkey management
+- [x] Implement passkey revocation
+- [ ] Add passkey tests — **deferred** (butuh mocked WebAuthn; di-track sebagai TODO lanjutan)
 
 ## 7.5 Security Events
 
-- [ ] Define security event model
-- [ ] Record login success
-- [ ] Record login failure
-- [ ] Record password change
-- [ ] Record 2FA changes
-- [ ] Record passkey changes
-- [ ] Record session revocation
+- [x] Define security event model
+- [x] Record login success
+- [x] Record login failure
+- [x] Record password change
+- [x] Record 2FA changes
+- [x] Record passkey changes
+- [x] Record session revocation
 
 ---
 
 # 8. Authorization
 
+> Implemented (M6). Spec: `docs/superpowers/specs/2026-08-16-authorization-design.md`;
+> plan: `docs/superpowers/plans/2026-08-16-authorization.md`.
+
 ## 8.1 RBAC
 
-- [ ] Configure Filament Shield
-- [ ] Configure Spatie Permission
-- [ ] Define default roles
-- [ ] Define permission naming convention
-- [ ] Configure role management
-- [ ] Configure permission management
+- [x] Configure Filament Shield — plugin + super_admin gate intercept (`config/filament-shield.php`), plan §Task 4
+- [x] Configure Spatie Permission — role model `App\Models\Role`, tables (`config/permission.php`), plan §Task 1
+- [x] Define default roles — 7 roles di `DatabaseSeeder` (hierarchy default `administrator → manager → supervisor → staff → viewer`), plan §Task 8
+- [x] Define permission naming convention — `action:subject` (`docs/conventions/naming.md` §Permission, `docs/conventions/coding.md`)
+- [x] Configure role management — Shield `RoleResource` (form + permission tabs), spec §2
+- [x] Configure permission management — Shield permission tabs (resources/pages/widgets/custom) di RoleResource, spec §2
 
 ## 8.2 Policies
 
-- [ ] Define policy conventions
-- [ ] Implement OrganizationPolicy
-- [ ] Implement OrganizationalUnitPolicy
-- [ ] Implement UserPolicy
-- [ ] Implement scoped authorization
+- [x] Define policy conventions — permission dulu, lalu scope (`docs/conventions/scope.md` §Policy, spec §3.4)
+- [x] Implement OrganizationPolicy — `core/Organization/Policies/OrganizationPolicy.php` (+ `Scope::canAccessOrganization`), plan §Task 5
+- [x] Implement OrganizationalUnitPolicy — `core/Organization/Policies/OrganizationalUnitPolicy.php` (+ `Scope::can`), plan §Task 5
+- [x] Implement UserPolicy — `app/Policies/UserPolicy.php` (scope update/delete via shared unit/org), plan §Task 6
+- [x] Implement scoped authorization — `Core\Support\Scope` + `ScopePolicy` (permission + scope per-record), plan §Task 2, 5, 6
 
 ## 8.3 Organizational Authorization
 
-- [ ] Implement permission + organizational scope
-- [ ] Validate current context against permissions
-- [ ] Prevent cross-unit unauthorized access
-- [ ] Test manager-level access
-- [ ] Test unit-level access
-- [ ] Test administrator bypass rules
+- [x] Implement permission + organizational scope — policy pattern `can('action:subject') && Scope::...`, plan §Task 2, 5
+- [x] Validate current context against permissions — policy per-record validation (permission + scope), plan §Task 5, 6
+- [x] Prevent cross-unit unauthorized access — `OrganizationalUnitScopeTest`, `UserPolicyScopeTest` (cross-unit denied), plan §Task 5, 6
+- [x] Test manager-level access — `tests/Feature/Authorization/OrganizationScopeTest.php`, plan §Task 5
+- [x] Test unit-level access — `tests/Feature/Authorization/OrganizationalUnitScopeTest.php`, plan §Task 5
+- [x] Test administrator bypass rules — super_admin bypass (`InheritanceGateTest`, scope tests, `ResourceScopeTest`), plan §Task 4, 5, 6, 7
 
 ---
 
@@ -289,17 +295,17 @@
 
 ## 9.1 Settings Architecture
 
-- [ ] Define settings contract
-- [ ] Define settings repository/storage
-- [ ] Define typed settings
-- [ ] Define settings scopes
-- [ ] Define default values
-- [ ] Define fallback behavior
+- [x] Define settings contract — `Core\Contracts\SettingsRepository`, spec §3.5
+- [x] Define settings repository/storage — `Core\Settings\DatabaseSettingsRepository`, tabel `settings` (M2/ADR-011)
+- [x] Define typed settings — `Core\Settings\SettingsRegistry` (`type` per key), spec §3.4
+- [x] Define settings scopes — `Core\Settings\Enums\SettingScope`, spec §3.2-3.3
+- [x] Define default values — `SettingsRegistry` (`default` per key), spec §3.4
+- [x] Define fallback behavior — cascading `User → Unit → Organization → System`, spec §3.6
 
 ## 9.2 System Settings
 
-- [ ] Application settings
-- [ ] Security settings
+- [x] Application settings — storage + UI (`app/Filament/Pages/Settings/ApplicationSettings.php`), keys `app.name`/`app.locale`/`app.timezone`; runtime application of the stored values (app name display, locale/timezone activation) is deferred to a follow-up task, not part of this plan
+- [x] Security settings — storage + UI (`app/Filament/Pages/Settings/SecuritySettings.php`), keys `security.two_factor_required`/`security.password_min_length`/`security.password_require_complexity`; runtime application (2FA force middleware, password rules) is deferred to a follow-up task, not part of this plan
 - [ ] Localization settings
 - [ ] Mail settings
 - [ ] Storage settings
@@ -331,28 +337,38 @@
 
 # 10. White Label / Branding
 
-- [ ] Define branding model
-- [ ] Define branding configuration
-- [ ] Implement application name
-- [ ] Implement company name
-- [ ] Implement logo
-- [ ] Implement dark logo
-- [ ] Implement favicon
-- [ ] Implement primary color
-- [ ] Implement secondary color
-- [ ] Implement login branding
-- [ ] Implement email branding
-- [ ] Implement footer branding
+- [x] Define branding model — grup `'branding'` di `Core\Settings\SettingsRegistry` (bukan model/tabel baru), spec `docs/superpowers/specs/2026-08-19-branding-design.md`
+- [x] Define branding configuration — `core/Config/core.php['branding']['disk']`, definisi key di `Core\Branding\BrandingServiceProvider::boot()`
+- [x] Implement application name — reuse `app.name` (M7), spec §2 keputusan #3
+- [x] Implement company name — `branding.company_name`
+- [x] Implement logo — `branding.logo`, `app/Filament/Pages/Settings/BrandingSettings.php`
+- [x] Implement dark logo — `branding.dark_logo`
+- [x] Implement favicon — `branding.favicon`
+- [x] Implement primary color — `branding.primary_color`, diterapkan ke panel via `AdminPanelProvider::colors()`
+- [x] Implement secondary color — `branding.secondary_color`
+- [x] Implement login branding — panel yang sama merender halaman login (`filament()->getBrandLogo()`/`getBrandName()`), tidak ada wiring terpisah
+- [x] Implement email branding — header email markdown (`resources/views/vendor/mail/html/header.blade.php`), hanya logo + nama (bukan tema warna/tombol)
+- [x] Implement footer branding — `branding.footer_text` (storage + UI; belum dirender di footer UI manapun — lihat catatan di bawah)
 
 ## Organization Branding
 
-- [ ] Implement organization branding
-- [ ] Implement branding fallback
-- [ ] Implement branding cache
+- [x] Implement organization branding — satu-satunya write tier di v1 (`SettingScope::Organization`), spec §2 keputusan #6
+- [x] Implement branding fallback — `Core\Branding\BrandingResolver` (Organization -> System -> default registry; fallback tambahan ke satu-satunya Organization di DB untuk konteks anonim)
+- [x] Implement branding cache — reuse cache per-tier `Core\Settings\DatabaseSettingsRepository` (M7), tidak ada mekanisme cache baru
 
 ## Future Extension
 
-- [ ] Define organizational-unit branding extension point
+- [ ] Define organizational-unit branding extension point — deferred, `SettingScope::Unit` sudah ada di enum tapi key `branding.*` tidak mendaftarkan scope ini (spec §8 Out of Scope)
+
+> Catatan: `branding.footer_text` tersimpan dan bisa diedit lewat `BrandingSettings`,
+> tapi belum dirender di footer panel/halaman manapun — menunggu ada UI footer yang
+> membutuhkannya. Uninstall `ashrafic/filament-white-label` dan migrasi penuh wiring
+> panel sengaja ditunda ke milestone terpisah (lihat Global Constraints plan ini).
+> Selama package lama masih terpasang, wiring `AdminPanelProvider` fallback 3 tier:
+> Core Branding (Organization/System) → `FilamentWhiteLabel\Services\WhiteLabel`
+> (data lama dari `WhiteLabelSettingsResource`, kalau ada) → default hardcoded —
+> supaya installation yang sudah sempat mengisi branding lewat editor lama tidak
+> kehilangan tampilannya secara diam-diam (temuan final review, commit `ac59bcd`).
 
 ---
 

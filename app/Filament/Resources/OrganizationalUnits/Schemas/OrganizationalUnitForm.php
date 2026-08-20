@@ -1,0 +1,55 @@
+<?php
+
+namespace App\Filament\Resources\OrganizationalUnits\Schemas;
+
+use App\Models\User;
+use Core\Organization\Enums\OrganizationalUnitType;
+use Core\Organization\Models\Organization;
+use Core\Support\Scope;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Components\Utilities\Set;
+use Filament\Schemas\Schema;
+
+class OrganizationalUnitForm
+{
+    public static function configure(Schema $schema): Schema
+    {
+        return $schema
+            ->components([
+                Select::make('organization_id')
+                    ->options(function (): array {
+                        $user = auth()->user();
+
+                        if (! $user) {
+                            return [];
+                        }
+
+                        if (Scope::isSuperAdmin($user)) {
+                            return Organization::pluck('name', 'id')->all();
+                        }
+
+                        /** @var User $user */
+                        return $user->organizations()->pluck('name', 'id')->all();
+                    })
+                    ->searchable()
+                    ->preload()
+                    ->required()
+                    ->live()
+                    ->afterStateUpdated(fn (Set $set) => $set('parent_id', null)),
+                Select::make('parent_id')
+                    ->relationship('parent', 'name', modifyQueryUsing: fn ($query, Get $get) => $query->where('organization_id', $get('organization_id')), ignoreRecord: true)
+                    ->searchable()
+                    ->preload()
+                    ->nullable()
+                    ->visible(fn (Get $get): bool => filled($get('organization_id'))),
+                TextInput::make('name')
+                    ->required()
+                    ->maxLength(255),
+                Select::make('type')
+                    ->options(OrganizationalUnitType::class)
+                    ->required(),
+            ]);
+    }
+}

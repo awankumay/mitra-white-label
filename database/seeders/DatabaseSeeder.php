@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Role;
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Core\Database\Seeders\OrganizationSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,11 +14,31 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        $roles = ['super_admin', 'administrator', 'manager', 'supervisor', 'staff', 'viewer', 'panel_user'];
+
+        foreach ($roles as $role) {
+            Role::firstOrCreate(['name' => $role]);
+        }
+
+        $administrator = Role::where('name', 'administrator')->first();
+        $manager = Role::where('name', 'manager')->first();
+        $supervisor = Role::where('name', 'supervisor')->first();
+        $staff = Role::where('name', 'staff')->first();
+        $viewer = Role::where('name', 'viewer')->first();
+
+        $supervisor->update(['parent_role_id' => $manager->id]);
+        $staff->update(['parent_role_id' => $supervisor->id]);
+        $viewer->update(['parent_role_id' => $staff->id]);
+        $manager->update(['parent_role_id' => $administrator->id]);
+        $administrator->update(['parent_role_id' => null]);
 
         User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+            'name' => 'Admin',
+            'email' => 'admin@example.com',
+            'password' => bcrypt('password'),
+            'email_verified_at' => now(),
+        ])->assignRole('super_admin');
+
+        $this->call(OrganizationSeeder::class);
     }
 }
