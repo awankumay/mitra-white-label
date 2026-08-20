@@ -21,6 +21,7 @@ use Jeffgreco13\FilamentBreezy\Traits\TwoFactorAuthenticatable;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
+ * @method bool can(string $ability, mixed ...$arguments)
  * @method bool hasRole(mixed $roles, ?string $guard = null)
  * @method bool hasPermission(mixed $permissions, ?string $guard = null)
  * @method bool hasConfirmedTwoFactor()

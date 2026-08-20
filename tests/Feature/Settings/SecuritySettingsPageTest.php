@@ -58,6 +58,7 @@ class SecuritySettingsPageTest extends TestCase
                 'security_password_min_length' => 10,
                 'security_password_require_complexity' => false,
             ])
+            // livewire 4.4.1: fillForm state is lost before save(); apply via set() so the values stick
             ->set('data.security_two_factor_required', true)
             ->set('data.security_password_min_length', 10)
             ->set('data.security_password_require_complexity', false)
@@ -90,5 +91,28 @@ class SecuritySettingsPageTest extends TestCase
 
         $repository = app(SettingsRepository::class);
         $this->assertNull($repository->getForScope('security.two_factor_required', SettingScope::System));
+    }
+
+    public function test_save_rejects_out_of_range_password_min_length(): void
+    {
+        $user = $this->userWithPermissions(['view:settings', 'update:settings']);
+        $this->actingAs($user);
+
+        Livewire::test(SecuritySettings::class)
+            ->fillForm([
+                'security_two_factor_required' => true,
+                'security_password_min_length' => 3,
+                'security_password_require_complexity' => false,
+            ])
+            // livewire 4.4.1: fillForm state is lost before save(); apply via set() so the values stick
+            ->set('data.security_two_factor_required', true)
+            ->set('data.security_password_min_length', 3)
+            ->set('data.security_password_require_complexity', false)
+            ->call('save')
+            // assertHasFormErrors() prefixes the schema state path ('data'), so pass the bare field name
+            ->assertHasFormErrors(['security_password_min_length']);
+
+        $repository = app(SettingsRepository::class);
+        $this->assertNull($repository->getForScope('security.password_min_length', SettingScope::System));
     }
 }

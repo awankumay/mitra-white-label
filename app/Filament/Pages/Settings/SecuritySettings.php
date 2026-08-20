@@ -77,13 +77,17 @@ class SecuritySettings extends Page
     {
         abort_unless(Auth::user()?->can('update:settings'), 403);
 
+        $this->form->validate();
+
         $repository = app(SettingsRepository::class);
         $registry = app(SettingsRegistry::class);
         $state = $this->form->getState();
 
         foreach ($registry->keysInGroup('security') as $key) {
             $field = str_replace('.', '_', $key);
-            $repository->set($key, $state[$field], SettingScope::System);
+            // Future security-group keys without a form field fall back to the
+            // registry default instead of throwing "Undefined array key".
+            $repository->set($key, $state[$field] ?? $registry->definition($key)['default'], SettingScope::System);
         }
 
         Notification::make()

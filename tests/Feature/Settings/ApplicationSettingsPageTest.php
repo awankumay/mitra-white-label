@@ -60,6 +60,7 @@ class ApplicationSettingsPageTest extends TestCase
                 'app_locale' => 'en',
                 'app_timezone' => 'Asia/Makassar',
             ])
+            // livewire 4.4.1: fillForm state is lost before save(); apply via set() so the values stick
             ->set('data.app_name', 'Mitra Baru')
             ->set('data.app_locale', 'en')
             ->set('data.app_timezone', 'Asia/Makassar')
