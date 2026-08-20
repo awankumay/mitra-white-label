@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages\Settings;
 
+use BackedEnum;
 use Core\Contracts\SettingsRepository;
 use Core\Settings\Enums\SettingScope;
 use Core\Settings\SettingsRegistry;
@@ -9,6 +10,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -17,6 +19,8 @@ use Illuminate\Support\Facades\Auth;
 class ApplicationSettings extends Page
 {
     protected string $view = 'filament.pages.settings.application-settings';
+
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::Cog;
 
     protected static ?int $navigationSort = 50;
 

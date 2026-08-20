@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages\Settings;
 
+use BackedEnum;
 use Core\Contracts\OrganizationContext;
 use Core\Contracts\SettingsRepository;
 use Core\Settings\Enums\SettingScope;
@@ -12,6 +13,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -21,6 +23,8 @@ use Illuminate\Support\Facades\Storage;
 class BrandingSettings extends Page
 {
     protected string $view = 'filament.pages.settings.branding-settings';
+
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::Cog;
 
     protected static ?int $navigationSort = 51;
 
