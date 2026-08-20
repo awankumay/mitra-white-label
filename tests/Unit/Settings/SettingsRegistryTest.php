@@ -25,6 +25,24 @@ class SettingsRegistryTest extends TestCase
                 'scopes' => [SettingScope::System, SettingScope::Unit, SettingScope::User],
                 'group' => 'application',
             ],
+            'security.two_factor_required' => [
+                'type' => 'bool',
+                'default' => false,
+                'scopes' => [SettingScope::System],
+                'group' => 'security',
+            ],
+            'security.password_min_length' => [
+                'type' => 'int',
+                'default' => 8,
+                'scopes' => [SettingScope::System],
+                'group' => 'security',
+            ],
+            'security.password_require_complexity' => [
+                'type' => 'bool',
+                'default' => true,
+                'scopes' => [SettingScope::System],
+                'group' => 'security',
+            ],
         ]);
 
         return $registry;
@@ -66,6 +84,14 @@ class SettingsRegistryTest extends TestCase
 
     public function test_keys_in_group_returns_empty_for_unknown_group(): void
     {
-        $this->assertSame([], $this->registry()->keysInGroup('security'));
+        $this->assertSame([], $this->registry()->keysInGroup('mail'));
+    }
+
+    public function test_keys_in_group_security(): void
+    {
+        $this->assertSame(
+            ['security.two_factor_required', 'security.password_min_length', 'security.password_require_complexity'],
+            $this->registry()->keysInGroup('security')
+        );
     }
 }

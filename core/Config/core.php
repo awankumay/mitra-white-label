@@ -41,6 +41,24 @@ return [
                 'scopes' => [SettingScope::System, SettingScope::Unit, SettingScope::User],
                 'group' => 'application',
             ],
+            'security.two_factor_required' => [
+                'type' => 'bool',
+                'default' => (bool) env('AUTH_2FA_FORCE', false),
+                'scopes' => [SettingScope::System],
+                'group' => 'security',
+            ],
+            'security.password_min_length' => [
+                'type' => 'int',
+                'default' => 8,
+                'scopes' => [SettingScope::System],
+                'group' => 'security',
+            ],
+            'security.password_require_complexity' => [
+                'type' => 'bool',
+                'default' => true,
+                'scopes' => [SettingScope::System],
+                'group' => 'security',
+            ],
         ],
     ],
     'auth' => [
