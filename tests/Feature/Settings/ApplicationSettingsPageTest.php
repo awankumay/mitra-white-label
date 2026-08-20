@@ -60,6 +60,9 @@ class ApplicationSettingsPageTest extends TestCase
                 'app_locale' => 'en',
                 'app_timezone' => 'Asia/Makassar',
             ])
+            ->set('data.app_name', 'Mitra Baru')
+            ->set('data.app_locale', 'en')
+            ->set('data.app_timezone', 'Asia/Makassar')
             ->call('save')
             ->assertHasNoFormErrors();
 

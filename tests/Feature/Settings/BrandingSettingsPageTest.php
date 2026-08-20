@@ -82,6 +82,8 @@ class BrandingSettingsPageTest extends TestCase
                 'branding_company_name' => 'PT Baru',
                 'branding_footer_text' => 'Copyright PT Baru',
             ])
+            ->set('data.branding_company_name', 'PT Baru')
+            ->set('data.branding_footer_text', 'Copyright PT Baru')
             ->call('save')
             ->assertHasNoFormErrors();
 
