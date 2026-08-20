@@ -137,8 +137,14 @@ git commit -m "feat: register security settings keys in registry (TODO 9.2)" -m 
 - Create: `resources/views/filament/pages/settings/security-settings.blade.php`
 
 **Interfaces:**
-- Consumes: `Core\Contracts\SettingsRepository`, `Core\Settings\Enums\SettingScope`, `Core\Settings\SettingsRegistry` (Task 1), `Filament\Forms\Components\Toggle`, `Filament\Forms\Components\TextInput`, `Filament\Notifications\Notification`, `Filament\Pages\Page`, `Filament\Schemas\Schema`, `Illuminate\Support\Facades\Auth`.
-- Produces: page class `App\Filament\Pages\Settings\SecuritySettings` with `canAccess()` (view:settings), `mount()`, `form()`, `save()` (update:settings). Auto-discovered by panel — no provider changes. Consumed by Task 3 (tests) and Task 4 (docs).
+- Consumes: `Core\Contracts\SettingsRepository`, `Core\Settings\Enums\SettingScope`, `Core\Settings\SettingsRegistry` (Task 1), `Filament\Forms\Components\Toggle`, `Filament\Forms\Components\TextInput`, `Filament\Notifications\Notification`, `Filament\Pages\Page`, `Filament\Schemas\Schema`, `Filament\Support\Icons\Heroicon`, `Illuminate\Support\Facades\Auth`.
+- Produces: page class `App\Filament\Pages\Settings\SecuritySettings` with `canAccess()` (view:settings), `mount()`, `form()`, `save()` (update:settings), `navigationIcon = Heroicon::Cog` (konsisten halaman settings lain). Auto-discovered by panel — no provider changes. Consumed by Task 3 (tests) and Task 4 (docs).
+
+> Note: page memakai `canAccess()` manual (`view:settings`) — TIDAK memakai
+> `HasPageShield` (yang menghasilkan permission `page_SecuritySettings` otomatis).
+> Keputusan user: tetap `view:settings`/`update:settings` sesuai spec §2. NavigationIcon
+> `Heroicon::Cog` mengikuti pola terbaru halaman settings (ApplicationSettings/BrandingSettings,
+> commit `8c6120a`).
 
 - [ ] **Step 1: Create the page class**
 
@@ -149,6 +155,7 @@ Create `app/Filament/Pages/Settings/SecuritySettings.php`:
 
 namespace App\Filament\Pages\Settings;
 
+use BackedEnum;
 use Core\Contracts\SettingsRepository;
 use Core\Settings\Enums\SettingScope;
 use Core\Settings\SettingsRegistry;
@@ -157,6 +164,7 @@ use Filament\Forms\Components\Toggle;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -165,6 +173,8 @@ use Illuminate\Support\Facades\Auth;
 class SecuritySettings extends Page
 {
     protected string $view = 'filament.pages.settings.security-settings';
+
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::Cog;
 
     protected static ?int $navigationSort = 52;
 
@@ -498,6 +508,74 @@ Expected: Pint clean, all tests pass (including new SecuritySettingsPageTest and
 ```bash
 git add docs/TODO.md docs/conventions/environment.md docs/conventions/settings.md
 git commit -m "docs: mark Security settings done, note deferred runtime (TODO 9.2)" -m "Co-authored-by: CommandCodeBot <noreply@commandcode.ai>"
+```
+
+### Task 3b: Fix pre-existing settings test failures (approved scope add-on)
+
+**Files:**
+- Modify: `tests/Feature/Settings/ApplicationSettingsPageTest.php` (`test_save_persists_values_via_settings_repository`)
+- Modify: `tests/Feature/Settings/BrandingSettingsPageTest.php` (`test_save_persists_to_organization_scope_not_system`)
+
+**Interfaces:**
+- Consumes: nothing new. Produces: green full settings suite so Task 4 quality gate (`composer check`) passes.
+
+> Context: two pre-existing test failures were discovered during Task 3 — the livewire
+> 4.4.1 upgrade (commit `8c6120a`) changed `fillForm` behavior so filled form state is lost
+> before `save()` reads it. The page persists registry defaults instead of the test values.
+> User approved fixing both tests with the `->set('data.*', ...)` pattern already used by
+> the Branding logo tests. Root cause: `fillForm` → `call('save')` loses state on this
+> Livewire/Filament version; the fix applies state via Livewire's `update()` mechanism
+> (`->set('data.field', value)`) after `fillForm`.
+
+- [ ] **Step 1: Fix ApplicationSettingsPageTest**
+
+In `test_save_persists_values_via_settings_repository`, after `->fillForm([...])` add three `->set(...)` lines so the values stick before `save()`:
+
+```php
+Livewire::test(ApplicationSettings::class)
+    ->fillForm([
+        'app_name' => 'Mitra Baru',
+        'app_locale' => 'en',
+        'app_timezone' => 'Asia/Makassar',
+    ])
+    ->set('data.app_name', 'Mitra Baru')
+    ->set('data.app_locale', 'en')
+    ->set('data.app_timezone', 'Asia/Makassar')
+    ->call('save')
+    ->assertHasNoFormErrors();
+```
+
+- [ ] **Step 2: Fix BrandingSettingsPageTest**
+
+In `test_save_persists_to_organization_scope_not_system`, after `->fillForm([...])` add two `->set(...)` lines:
+
+```php
+Livewire::test(BrandingSettings::class)
+    ->fillForm([
+        'branding_company_name' => 'PT Baru',
+        'branding_footer_text' => 'Copyright PT Baru',
+    ])
+    ->set('data.branding_company_name', 'PT Baru')
+    ->set('data.branding_footer_text', 'Copyright PT Baru')
+    ->call('save')
+    ->assertHasNoFormErrors();
+```
+
+- [ ] **Step 3: Run both fixed tests**
+
+Run: `php vendor/bin/phpunit tests/Feature/Settings/ApplicationSettingsPageTest.php tests/Feature/Settings/BrandingSettingsPageTest.php`
+Expected: PASS — both persistence tests now green.
+
+- [ ] **Step 4: Run the full settings suite**
+
+Run: `php vendor/bin/phpunit tests/Feature/Settings tests/Unit/Settings`
+Expected: all pass (SecuritySettings 4 + ApplicationSettings 4 + Branding 7 + registry etc).
+
+- [ ] **Step 5: Commit**
+
+```bash
+git add tests/Feature/Settings/ApplicationSettingsPageTest.php tests/Feature/Settings/BrandingSettingsPageTest.php
+git commit -m "test: fix settings page tests for livewire 4.4.1 fillForm state loss" -m "Co-authored-by: CommandCodeBot <noreply@commandcode.ai>"
 ```
 
 ---
